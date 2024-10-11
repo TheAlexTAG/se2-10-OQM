@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import GetTicket from "./components/GetTicket.tsx";
 import CallCustomer from "./components/CallCustomer.tsx";
