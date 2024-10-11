@@ -4,7 +4,7 @@ import CallCustomer from "./components/CallCustomer.tsx";
 import Login from "./components/Login.tsx";
 import "./App.css";
 
-function App() {
+const App = () => {
   return (
     <Router>
       <Routes>
@@ -14,6 +14,6 @@ function App() {
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;
