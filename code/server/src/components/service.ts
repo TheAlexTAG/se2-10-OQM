@@ -4,7 +4,7 @@
 class ServiceType {
     id: number
     name: string
-    description: string
+    description: string | null
     serviceTime: number
 
     /**
@@ -14,7 +14,7 @@ class ServiceType {
      * @param description Description of the service offered 
      * @param serviceTime Service time for request type
      */
-    constructor(id: number, name: string, description: string, serviceTime: number) {
+    constructor(id: number, name: string, description: string | null, serviceTime: number) {
         this.id = id;
         this.name = name;
         this.description = description;

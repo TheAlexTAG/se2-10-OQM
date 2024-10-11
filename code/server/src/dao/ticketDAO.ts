@@ -40,6 +40,7 @@ class ticketDAO {
      * Adds a ticket to the today queue.
      * @param serviceID represents the id of the service asked.
      * @param waitlistCode represents the code of priority of the ticket in the date of today.
+     * @returns A promise that resolves to a Ticket object if it's found, throws the TicketNotFoundError otherwise.
      */
     addTicketToQueue(serviceID: number, waitlistCode: number): Promise<void> {
         return new Promise((resolve, reject) => {
@@ -58,18 +59,11 @@ class ticketDAO {
     getTicketByID(ticketID: number): Promise<Ticket> {
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM ticket WHERE ticketID = ?`
-            db.get(sql, [ticketID], (err: Error, row: {
-                ticketID: number,
-                serviceID: number,
-                waitlistCode: number,
-                counterID: number | null,
-                servedTime: string | null,
-                ticketDate: string,
-                served: ServedStatus}) => {
-                    if(err) reject(err);
-                    row ? 
-                    resolve(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served)) 
-                    : reject(new TicketNotFoundError());
+            db.get(sql, [ticketID], (err: Error, row: {ticketID: number, serviceID: number, waitlistCode: number, counterID: number | null, servedTime: string | null, ticketDate: string, served: ServedStatus}) => {
+                if(err) reject(err);
+                row ? 
+                resolve(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served)) 
+                : reject(new TicketNotFoundError());
             })
         })
     }
@@ -81,18 +75,11 @@ class ticketDAO {
     getTicketByWaitlistCode(waitlistCode: number): Promise<Ticket> {
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM ticket WHERE waitlistCode = ? AND strftime('%Y-%m-%d', ticketDate) = DATE('now')` 
-            db.get(sql, [waitlistCode], (err: Error, row: {
-                ticketID: number,
-                serviceID: number,
-                waitlistCode: number,
-                counterID: number | null,
-                servedTime: string | null,
-                ticketDate: string,
-                served: ServedStatus}) => {
-                    if(err) reject(err);
-                    row ? 
-                    resolve(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served)) 
-                    : reject(new TicketNotFoundError());
+            db.get(sql, [waitlistCode], (err: Error, row: {ticketID: number, serviceID: number, waitlistCode: number, counterID: number | null, servedTime: string | null, ticketDate: string, served: ServedStatus}) => {
+                if(err) reject(err);
+                row ? 
+                resolve(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served)) 
+                : reject(new TicketNotFoundError());
             })
         })
     }
