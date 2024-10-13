@@ -1,18 +1,30 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import GetTicket from "./components/GetTicket.tsx";
 import CallCustomer from "./components/CallCustomer.tsx";
 import Login from "./components/Login.tsx";
 import "./App.css";
+import TopBar from "./components/TopBar.tsx";
+import { useAuthContext } from "./contexts/AuthContext.tsx";
+import CallNextCustomer from "./components/CallNextCustomer.tsx";
 
 const App = () => {
+  const { loggedIn } = useAuthContext();
   return (
-    <Router>
+    <div className="app-container">
+      <h1>Office Queue Management</h1>
       <Routes>
-        <Route path="/" element={<GetTicket />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/display" element={<CallCustomer />} />
+        <Route path="/" element={<TopBar />}>
+          <Route index element={<GetTicket />} />
+
+          <Route path="/display" element={<CallCustomer />} />
+          <Route path="/officer" element={<CallNextCustomer />} />
+          <Route
+            path="login"
+            element={loggedIn ? <Navigate replace to="/officer" /> : <Login />}
+          />
+        </Route>
       </Routes>
-    </Router>
+    </div>
   );
 };
 

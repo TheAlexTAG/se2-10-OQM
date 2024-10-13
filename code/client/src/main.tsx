@@ -6,11 +6,22 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { AuthProvider } from "./contexts/AuthContext.tsx";
+
+const router = createBrowserRouter([
+  {
+    path: "/*",
+    element: <App />,
+  },
+]);
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <AuthProvider>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </AuthProvider>
   </StrictMode>
 );
