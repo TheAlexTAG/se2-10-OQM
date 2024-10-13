@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Alert, Button, Card, Container, Spinner } from "react-bootstrap";
 
-// Define the types for the data you might receive from the API
 interface Ticket {
   ticketId: number;
   serviceId: number;
