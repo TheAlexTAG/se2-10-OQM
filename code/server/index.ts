@@ -1,6 +1,7 @@
 import express from 'express';
 import { UserDAO } from "./src/dao/userDAO";
 import {UserRoutes} from "./src/routers/userRoutes";
+import {QueueRoutes} from "./src/routers/queueRoutes";
 
 const morgan= require('morgan'); // logging middleware
 const cors= require('cors');
@@ -66,6 +67,7 @@ app.use(passport.session());
 
 /* ROUTES */
 new UserRoutes(app, passport, isLoggedIn);
+new QueueRoutes(app);
 
 /*** Other express-related instructions ***/
 // activate the server
