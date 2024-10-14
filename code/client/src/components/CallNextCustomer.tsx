@@ -1,6 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { Alert, Button, Card, Container, Spinner } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Card,
+  Container,
+  Spinner,
+  Row,
+  Col,
+} from "react-bootstrap";
 
 interface Ticket {
   ticketId: number;
@@ -12,17 +20,12 @@ interface Ticket {
   served: number;
 }
 
-interface CounterService {
-  counterId: number;
-  serviceId: number;
-}
-
 const CallNextCustomer = () => {
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  // We assume the counter officer has a fixed counterId (e.g., 1) (testing)
+  // Fixed counterId for testing (can be dynamic in production)
   const counterId = 1;
 
   const fetchCurrentCustomer = async () => {
@@ -39,6 +42,7 @@ const CallNextCustomer = () => {
       setLoading(false);
     }
   };
+
   const fetchNextCustomer = async () => {
     setLoading(true);
     setError(null); // Reset error
@@ -62,8 +66,8 @@ const CallNextCustomer = () => {
     setError(null); // Reset error
     try {
       await axios.post("/api/mark-done", {
-        //ticketCode: currentTicket.code,
-        //counterId: counterId,
+        // ticketCode: currentTicket.code,
+        // counterId: counterId,
       });
       setCurrentTicket(null); // Clear the current ticket
     } catch (err) {
@@ -79,27 +83,34 @@ const CallNextCustomer = () => {
   }, []);
 
   return (
-    <Container className="mt-4">
+    <Container className="mt-5 d-flex flex-column align-items-center">
       <h2 className="text-center mb-4">
         Counter {counterId} - Call Next Customer
       </h2>
 
+      {/* Loading Spinner */}
       {loading && (
-        <div className="text-center">
-          <Spinner animation="border" role="status" />
-          <span className="visually-hidden">Loading...</span>
+        <div className="text-center mb-4">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
         </div>
       )}
 
+      {/* Error Message */}
       {error && (
         <Alert variant="danger" className="text-center">
           {error}
         </Alert>
       )}
 
+      {/* Current Ticket Information */}
       {currentTicket ? (
-        <Card className="text-center mb-3">
-          <Card.Header>Current Ticket</Card.Header>
+        <Card
+          className="text-center mb-4 shadow"
+          style={{ maxWidth: "500px", width: "100%" }}
+        >
+          <Card.Header as="h5">Current Ticket</Card.Header>
           <Card.Body>
             <Card.Title>Ticket ID: {currentTicket.ticketId}</Card.Title>
             <Card.Text>Service Type: {currentTicket.serviceId}</Card.Text>
@@ -114,20 +125,28 @@ const CallNextCustomer = () => {
           </Card.Body>
         </Card>
       ) : (
-        <Alert variant="info" className="text-center">
+        <Alert
+          variant="info"
+          className="text-center"
+          style={{ maxWidth: "500px", width: "100%" }}
+        >
           No active ticket. Call the next customer.
         </Alert>
       )}
 
-      <div className="text-center">
-        <Button
-          variant="primary"
-          onClick={fetchNextCustomer}
-          disabled={loading || !!currentTicket}
-        >
-          Call Next Customer
-        </Button>
-      </div>
+      {/* Call Next Customer Button */}
+      <Row className="justify-content-center">
+        <Col xs="auto">
+          <Button
+            variant="primary"
+            onClick={fetchNextCustomer}
+            disabled={loading || !!currentTicket}
+            className="mt-3"
+          >
+            Call Next Customer
+          </Button>
+        </Col>
+      </Row>
     </Container>
   );
 };

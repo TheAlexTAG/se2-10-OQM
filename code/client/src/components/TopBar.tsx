@@ -16,45 +16,58 @@ function TopBar() {
             <Nav className="ms-auto">
               <Nav.Link as="div">
                 <NavLink
-                  className={({ isActive }) => (isActive ? "active" : "")}
                   to="/"
+                  className={({ isActive }) =>
+                    isActive ? "active nav-link" : "nav-link"
+                  }
                 >
                   Customer
                 </NavLink>
               </Nav.Link>
               <Nav.Link as="div">
                 <NavLink
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                  to={`/login`}
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive ? "active nav-link" : "nav-link"
+                  }
                 >
-                  Counter officer
+                  Counter Officer
                 </NavLink>
               </Nav.Link>
+
               <Nav.Link as="div">
                 <NavLink
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                  to={`/display`}
+                  to="/display"
+                  className={({ isActive }) =>
+                    isActive ? "active nav-link" : "nav-link"
+                  }
                 >
                   Monitor in the waiting room
                 </NavLink>
               </Nav.Link>
               <Nav.Link as="div">
                 <NavLink
-                  className={({ isActive }) => (isActive ? "active" : "")}
-                  to={`/officer`}
+                  to="/officer"
+                  className={({ isActive }) =>
+                    isActive ? "active nav-link" : "nav-link"
+                  }
                 >
                   Bypass login for officer (dev only)
                 </NavLink>
               </Nav.Link>
               {loggedIn ? (
                 <Nav.Link as="div">
-                  <div>LoggedIn</div>
+                  <NavLink to="/logout" className="nav-link">
+                    <div>Log Out</div>
+                  </NavLink>
                 </Nav.Link>
               ) : (
                 <Nav.Link as="div">
                   <NavLink
-                    className={({ isActive }) => (isActive ? "active" : "")}
                     to="/login"
+                    className={({ isActive }) =>
+                      isActive ? "active nav-link" : "nav-link"
+                    }
                   >
                     Login
                   </NavLink>
