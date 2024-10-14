@@ -4,6 +4,7 @@
     justify-content: center; 
     align-items: center; 
     flex-direction: column;
+    margin-left: 450px;
   }
   
   /* Stile della tabella */
