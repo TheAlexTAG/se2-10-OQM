@@ -18,7 +18,7 @@ class UserDAO{
      */
     getUserById(id: number): Promise<any> {
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM users WHERE userID = ?';
+            const sql = 'SELECT * FROM user WHERE userID = ?';
             db.get(sql, [id], (err: Error | null, row: any) => {
                 if (err) {
                     reject(err);
@@ -42,7 +42,7 @@ class UserDAO{
      */
     getUser(username: string, password: string): Promise<any>{
         return new Promise((resolve, reject) => {
-            const sql = 'SELECT * FROM users WHERE username = ?';
+            const sql = 'SELECT * FROM user WHERE username = ?';
             db.get(sql, [username], (err: Error | null, row: any) => {
                 if (err) {
                     return reject(err);
