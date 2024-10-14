@@ -18,8 +18,12 @@ class ticketDAO {
             const sql = `INSERT INTO ticket(ticketID, serviceID, waitlistCode, counterID, servedTime, ticketDate) 
             VALUES(null, ?, ?, null, null, DATETIME('now'))`
             db.run(sql, [serviceID, waitlistCode], (err: Error) => {
-               if(err) reject(err);
-               else resolve(); 
+                console.log(waitlistCode);
+                if(err) {
+                    console.log(err);
+                    reject(err);
+                }
+                else resolve(); 
             })
         })
     }
@@ -29,10 +33,10 @@ class ticketDAO {
      */
     getNextWaitlistCode(): Promise<number> {
         return new Promise((resolve, reject) => {
-            const sql = `SELECT MAX(waitlistCode) FROM queue`
-            db.get(sql, [], (err: Error, row: number) => {
+            const sql = `SELECT MAX(waitlistCode) AS maxCode FROM queue`
+            db.get(sql, [], (err: Error, row: {maxCode: number}) => {
                 if(err) reject(err)
-                row ? resolve(row + 1) : resolve(1)
+                row.maxCode ? resolve(row.maxCode + 1) : resolve(1)
             })
         })
     }
@@ -47,7 +51,7 @@ class ticketDAO {
             const sql = `INSERT INTO queue(waitlistCode, serviceID) VALUES(?, ?)`
             db.run(sql, [waitlistCode, serviceID], (err: Error) => {
                 if(err) reject(err);
-                else(resolve);
+                else resolve();
             })
         })
     }

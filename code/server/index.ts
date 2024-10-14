@@ -2,6 +2,7 @@ import express from 'express';
 import { UserDAO } from "./src/dao/userDAO";
 import {UserRoutes} from "./src/routers/userRoutes";
 import {ServiceRoutes} from "./src/routers/serviceRoutes"
+import {TicketRoutes} from "./src/routers/ticketRoutes"
 
 const morgan= require('morgan'); // logging middleware
 const cors= require('cors');
@@ -67,9 +68,8 @@ app.use(passport.session());
 
 /* ROUTES */
 new UserRoutes(app, passport, isLoggedIn);
-const serviceRoutes = new ServiceRoutes(app);
-
-serviceRoutes.initRoutes();
+new ServiceRoutes(app);
+new TicketRoutes(app);
 
 
 /*** Other express-related instructions ***/

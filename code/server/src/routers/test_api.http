@@ -2,4 +2,12 @@
 GET http://localhost:3001/api/getAllServices
 
 ###
-GET http://localhost:3001/api/getService/Package%20delivery
+GET http://localhost:3001/api/getService/Tax%20payment
+
+###
+POST http://localhost:3001/api/addTicket
+content-type: application/json
+
+{
+    "serviceName": "Tax payment"
+}

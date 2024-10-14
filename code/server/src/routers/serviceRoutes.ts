@@ -3,6 +3,7 @@ import { serviceController } from "../controllers/serviceController";
 import { param } from "express-validator"
 import ErrorHandler from "../helper";
 import { ServiceType } from "../components/service";
+import { ServiceNotFoundError } from "../errors/serviceErrors";
 
 class ServiceRoutes {
     private app: express.Application
@@ -21,12 +22,15 @@ class ServiceRoutes {
         .then((services: ServiceType[]) => res.status(200).json(services))
         .catch((err: Error) => res.status(500).json(err)))
 
-        this.app.get("/api/getService/:serviceName", [
+        this.app.get("/api/getService/:serviceName", 
             param("serviceName").notEmpty().isString(),
-            this.errorHandler.validateRequest
-        ],(req: any, res: any, next: any) => this.controller.getServiceByName(req.params.serviceName)
+            this.errorHandler.validateRequest,
+        (req: any, res: any, next: any) => this.controller.getServiceByName(req.params.serviceName)
         .then((service: ServiceType) => res.status(200).json(service))
-        .catch((err: Error) => res.status(500).json(err)))
+        .catch((err: Error) => {
+            if(err instanceof ServiceNotFoundError) res.status(err.customCode).json(err);
+            else res.status(500).json(err);
+        }))
     }
 }
 
