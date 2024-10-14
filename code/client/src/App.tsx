@@ -6,6 +6,7 @@ import "./App.css";
 import TopBar from "./components/TopBar.tsx";
 import { useAuthContext } from "./contexts/AuthContext.tsx";
 import CallNextCustomer from "./components/CallNextCustomer.tsx";
+import TicketPage from "./components/TicketPage.tsx";
 
 const App = () => {
   const { loggedIn } = useAuthContext();
@@ -15,7 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<TopBar />}>
           <Route index element={<GetTicket />} />
-
+          <Route path="/ticket/:id" element={<TicketPage />} />
           <Route path="/display" element={<CallCustomer />} />
           <Route path="/officer" element={<CallNextCustomer />} />
           <Route

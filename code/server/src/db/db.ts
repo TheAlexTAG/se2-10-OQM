@@ -1,8 +1,5 @@
-"use strict"
-
 import { Database } from "sqlite3";
-
-const sqlite = require("sqlite3")
+const sqlite = require("sqlite3");
 
 
 let env = process.env.NODE_ENV ? process.env.NODE_ENV.trim() : "development"
