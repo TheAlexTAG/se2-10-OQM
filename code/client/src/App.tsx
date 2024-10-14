@@ -1,29 +1,20 @@
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import "./App.css";
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import GetTicket from './components/GetTicket.tsx';
+import CallCustomer from './components/CallCustomer.tsx';
+import Login from "./components/Login.tsx";
+import TicketPage from './components/TicketPage.tsx';
 
 function App() {
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <h2>Welcome to Software2 project</h2>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<GetTicket/>} />
+        <Route path="/ticket/:id" element={<TicketPage/>} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/display" element={<CallCustomer/>} />
+      </Routes>
+    </Router>
   );
 }
 
