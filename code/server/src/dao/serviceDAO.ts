@@ -6,7 +6,7 @@ import { ServiceNotFoundError, ServiceListEmptyError } from "../errors/serviceEr
  * Represents a DAO for interaction mainly with server table in the database.
  */
 
-class serviceDAO {
+class ServiceDAO {
     /**
      * Gets a service object from the service table given the service id.
      * @param serviceID represents the id of the service.
@@ -15,10 +15,10 @@ class serviceDAO {
     getServiceByID(serviceID: number): Promise<ServiceType> {
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM service WHERE serviceID = ?`
-            db.get(sql, [serviceID], (err: Error, row: {serviceID: number, serviceName: string, description: string | null, serviceTime: number}) => {
+            db.get(sql, [serviceID], (err: Error, row: {serviceID: number, serviceTag: string, serviceName: string, description: string | null, serviceTime: number}) => {
                 if(err) reject(err);
                 row ?
-                resolve(new ServiceType(row.serviceID, row.serviceName, row.description, row.serviceTime))
+                resolve(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime))
                 : reject(new ServiceNotFoundError())
             })
         })
@@ -31,10 +31,10 @@ class serviceDAO {
     getServiceByName(serviceName: string): Promise<ServiceType> {
         return new Promise((resolve, reject) => {
             const sql = `SELECT * FROM service WHERE serviceName = ?`
-            db.get(sql, [serviceName], (err: Error, row: {serviceID: number, serviceName: string, description: string | null, serviceTime: number}) => {
+            db.get(sql, [serviceName], (err: Error, row: {serviceID: number, serviceTag: string, serviceName: string, description: string | null, serviceTime: number}) => {
                 if(err) reject(err);
                 row ?
-                resolve(new ServiceType(row.serviceID, row.serviceName, row.description, row.serviceTime))
+                resolve(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime))
                 : reject(new ServiceNotFoundError())
             })
         })
@@ -51,8 +51,8 @@ class serviceDAO {
                 else if(!rows) reject(new ServiceListEmptyError());
                 else {
                     let services: ServiceType[] = [];
-                    rows.forEach((row: {serviceID: number, serviceName: string, description: string | null, serviceTime: number}) => {
-                        services.push(new ServiceType(row.serviceID, row.serviceName, row.description, row.serviceTime));
+                    rows.forEach((row: {serviceID: number, serviceTag: string, serviceName: string, description: string | null, serviceTime: number}) => {
+                        services.push(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime));
                     })
                     resolve(services);
                 }
@@ -61,4 +61,4 @@ class serviceDAO {
     }
 }
 
-export {serviceDAO};
+export {ServiceDAO};
