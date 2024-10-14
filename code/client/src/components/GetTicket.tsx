@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/GetTicket.css";
 
@@ -28,7 +28,7 @@ export default function GetTicket() {
   };
 
   return (
-    <div className="centered-container d-flex flex-column justify-content-center align-items-center">
+    <div className="d-flex flex-column justify-content-center align-items-center">
       <div className="card p-4">
         <h1 className="text-center">Select a Service</h1>
         <div className="d-flex justify-content-center my-4">

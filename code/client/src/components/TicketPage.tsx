@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import '../styles/TicketPage.css';
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import "../styles/TicketPage.css";
 
 export default function TicketPage() {
   const location = useLocation();
@@ -15,7 +15,7 @@ export default function TicketPage() {
     }, 1000);
 
     const redirectTimeout = setTimeout(() => {
-      navigate('/');
+      navigate("/");
     }, 30000);
 
     // Cleanup timer
@@ -27,7 +27,7 @@ export default function TicketPage() {
 
   const handlePrintTicket = () => {
     window.print(); // Apre la finestra di dialogo di stampa
-    navigate('/');  
+    navigate("/");
   };
 
   if (!ticketNumber || !service) {
@@ -35,23 +35,31 @@ export default function TicketPage() {
   }
 
   return (
-    <div className="centered-container d-flex flex-column justify-content-center align-items-center">
-
-      <div className="printable-ticket alert alert-success mt-4 text-center" role="alert">
+    <div className="d-flex flex-column justify-content-center align-items-center">
+      <div
+        className="printable-ticket alert alert-success mt-4 text-center"
+        role="alert"
+      >
         <h4 className="alert-heading">Il tuo ticket:</h4>
-        <p>Numero: <strong>{ticketNumber}</strong></p>
-        <p>Servizio: <strong>{service.name}</strong></p>
-        <p>Tempo di attesa stimato: <strong>{service.waitTime} minuti</strong></p>
+        <p>
+          Numero: <strong>{ticketNumber}</strong>
+        </p>
+        <p>
+          Servizio: <strong>{service.name}</strong>
+        </p>
+        <p>
+          Tempo di attesa stimato: <strong>{service.waitTime} minuti</strong>
+        </p>
       </div>
 
-        <p className="timer-text mt-3">
-        Entro <strong>{secondsLeft}</strong> secondi sarai reindirizzato alla pagina iniziale.
-        </p>
+      <p className="timer-text mt-3">
+        Entro <strong>{secondsLeft}</strong> secondi sarai reindirizzato alla
+        pagina iniziale.
+      </p>
 
       <button className="btn btn-primary mt-4" onClick={handlePrintTicket}>
         Salva il ticket in PDF
       </button>
-
     </div>
   );
 }
