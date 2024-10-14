@@ -20,6 +20,16 @@ class serviceController {
             throw err;
         }
     }
+
+    async getServiceByName(serviceName: string): Promise<ServiceType> {
+        try {
+            let service = await this.dao.getServiceByName(serviceName);
+            return service;
+        }
+        catch (err) {
+            throw err;
+        }
+    }
 }
 
 export {serviceController};
