@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import { store } from "./app/store.ts";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import Login from "./components/Login/Login.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -14,6 +15,7 @@ createRoot(document.getElementById("root")!).render(
       <Router>
         <Routes>
           <Route path="/" element={<App />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </Router>
     </Provider>
