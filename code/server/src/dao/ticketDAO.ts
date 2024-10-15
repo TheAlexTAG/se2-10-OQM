@@ -18,7 +18,6 @@ class ticketDAO {
             const sql = `INSERT INTO ticket(ticketID, serviceID, waitlistCode, counterID, servedTime, ticketDate) 
             VALUES(null, ?, ?, null, null, DATETIME('now'))`
             db.run(sql, [serviceID, waitlistCode], (err: Error) => {
-                console.log(waitlistCode);
                 if(err) {
                     console.log(err);
                     reject(err);
@@ -98,6 +97,31 @@ class ticketDAO {
             const sql = `UPDATE ticket 
             SET counterID = ? WHERE ticketID = ?`
             db.run(sql, [counterID, ticketID], (err: Error) => {
+                if(err) reject(err);
+                else resolve();
+            })
+        })
+    }
+    
+    getAllTickets(): Promise<Ticket[]> {
+        return new Promise((resolve, reject) => {
+            const sql = `SELECT * FROM ticket`
+            db.all(sql, [], (err: Error, rows: any) => {
+                const tickets: Ticket[] = [];
+                if(rows) {
+                    rows.forEach((row: {ticketID: number, serviceID: number, waitlistCode: number, counterID: number | null, servedTime: string | null, ticketDate: string, served: ServedStatus}) => {
+                        tickets.push(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served));
+                    })
+                }
+                resolve(tickets);
+            })
+        })
+    }
+
+    deleteAllTickets(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const sql = `DELETE FROM ticket`
+            db.run(sql, [], (err: Error) => {
                 if(err) reject(err);
                 else resolve();
             })

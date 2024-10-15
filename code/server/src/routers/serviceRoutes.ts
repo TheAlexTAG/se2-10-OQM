@@ -3,7 +3,7 @@ import { serviceController } from "../controllers/serviceController";
 import { param } from "express-validator"
 import ErrorHandler from "../helper";
 import { ServiceType } from "../components/service";
-import { ServiceNotFoundError } from "../errors/serviceErrors";
+import { ServiceListEmptyError, ServiceNotFoundError } from "../errors/serviceErrors";
 
 class ServiceRoutes {
     private app: express.Application
@@ -29,6 +29,13 @@ class ServiceRoutes {
         .then((service: ServiceType) => res.status(200).json(service))
         .catch((err: Error) => {
             if(err instanceof ServiceNotFoundError) res.status(err.customCode).json(err);
+            else res.status(500).json(err);
+        }))
+
+        this.app.delete("/api/deleteServices", (req: any, res: any, next: any) => this.controller.deleteAllServices()
+        .then(() => res.status(200).json())
+        .catch((err: Error) => {
+            if(err instanceof ServiceListEmptyError) res.status(err.customCode).json(err);
             else res.status(500).json(err);
         }))
     }

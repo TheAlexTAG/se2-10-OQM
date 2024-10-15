@@ -1,5 +1,6 @@
 import { ServiceDAO } from "../dao/serviceDAO";
 import { ServiceType } from "../components/service";
+import { ServiceListEmptyError } from "../errors/serviceErrors";
 
 /**
  * Represents a controller for managing services.
@@ -25,6 +26,18 @@ class serviceController {
         try {
             let service = await this.dao.getServiceByName(serviceName);
             return service;
+        }
+        catch (err) {
+            throw err;
+        }
+    }
+
+    async deleteAllServices(): Promise<void> {
+        try {
+            let services = await this.dao.getAllServices();
+            if(services.length === 0) throw new ServiceListEmptyError();
+            await this.dao.deleteAllServices();
+            return;
         }
         catch (err) {
             throw err;

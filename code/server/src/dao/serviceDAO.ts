@@ -1,7 +1,7 @@
 import { rejects } from "assert"
 import { ServiceType } from "../components/service"
 import db from "../db/db"
-import { ServiceNotFoundError, ServiceListEmptyError } from "../errors/serviceErrors"
+import { ServiceNotFoundError } from "../errors/serviceErrors"
 /**
  * Represents a DAO for interaction mainly with server table in the database.
  */
@@ -48,14 +48,25 @@ class ServiceDAO {
             const sql = `SELECT * FROM service`
             db.all(sql, [], (err: Error, rows: any) => {
                 if(err) reject(err);
-                else if(!rows) reject(new ServiceListEmptyError());
                 else {
                     let services: ServiceType[] = [];
-                    rows.forEach((row: {serviceID: number, serviceTag: string, serviceName: string, description: string | null, serviceTime: number}) => {
-                        services.push(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime));
-                    })
+                    if(rows) {
+                        rows.forEach((row: {serviceID: number, serviceTag: string, serviceName: string, description: string | null, serviceTime: number}) => {
+                            services.push(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime));
+                        })
+                    }
                     resolve(services);
                 }
+            })
+        })
+    }
+
+    deleteAllServices(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const sql = `DELETE FROM service`
+            db.run(sql, [], (err: Error) => {
+                if(err) reject(err);
+                else resolve();
             })
         })
     }

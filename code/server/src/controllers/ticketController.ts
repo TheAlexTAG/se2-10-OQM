@@ -2,6 +2,7 @@ import { ticketDAO } from "../dao/ticketDAO";
 import { Ticket } from "../components/ticket";
 import { ServiceDAO } from "../dao/serviceDAO";
 import { ServiceType } from "../components/service";
+import { TicketListEmpty } from "../errors/ticketErrors";
 
 class ticketController {
     private dao: ticketDAO
@@ -19,6 +20,28 @@ class ticketController {
             return ticket;
         }
         catch (err) {
+            throw err;
+        }
+    }
+
+    async getAllTickets(): Promise<Ticket[]> {
+        try {
+            let tickets = await this.dao.getAllTickets();
+            return tickets;
+        }
+        catch(err) {
+            throw err;
+        }
+    }
+
+    async deleteAllTickets(): Promise<void> {
+        try {
+            let tickets = await this.dao.getAllTickets();
+            if(tickets.length === 0) throw new TicketListEmpty();
+            await this.dao.deleteAllTickets();
+            return;
+        }
+        catch(err) {
             throw err;
         }
     }

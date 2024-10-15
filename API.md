@@ -54,6 +54,15 @@
       It should return status code `200 Ok` on success.
       It should return status code `404 Not Found` if there are no matches in the database.
       It should return status code `500 Internal Server Error` if the database query throws and error.
+  
+- DELETE `/api/deleteServices`
+    - description: route for deleting all services. Only for test purpose;
+    - request body: none;
+    - response body: none;
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `404 Not Found` if the service table is empty.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
 
 #### Ticket API
 - POST `/api/addTicket`
@@ -79,4 +88,60 @@
     - response:
       It should return status code `200 Ok` on success.
       It should return status code `404 Not Found` if the service specified in the body is not found.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
+
+- GET `/api/getAllTickets`
+    - description: route for getting all the tickets in the database;
+    - request body: none;
+    - response body: 
+    ``` json
+    [
+      {
+        "ticketID": 1,
+        "serviceID": 1,
+        "waitlistCode": 1,
+        "counterID": null,
+        "servedTime": null,
+        "ticketDate": "2024-10-15 13:54:40",
+        "served": 0
+      },
+      {
+        "ticketID": 2,
+        "serviceID": 1,
+        "waitlistCode": 2,
+        "counterID": null,
+        "servedTime": null,
+        "ticketDate": "2024-10-15 13:54:41",
+        "served": 0
+      },
+      {
+        "ticketID": 3,
+        "serviceID": 1,
+        "waitlistCode": 3,
+        "counterID": null,
+        "servedTime": null,
+        "ticketDate": "2024-10-15 13:54:42",
+        "served": 0
+      },
+      {
+        "ticketID": 4,
+        "serviceID": 1,
+        "waitlistCode": 4,
+        "counterID": null,
+        "servedTime": null,
+        "ticketDate": "2024-10-15 13:54:43",
+        "served": 0
+      }
+    ]
+    ```
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
+- DELETE `/api/deleteServices`
+    - description: route for deleting all tickets. Only for test purpose;
+    - request body: none;
+    - response body: none;
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `404 Not Found` if the ticket table is empty.
       It should return status code `500 Internal Server Error` if the database query throws and error.
