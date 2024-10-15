@@ -109,8 +109,8 @@ class QueueDAO {
     setTicketServed(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             try{
-                const sql = 'UPDATE ticket SET served=? AND servedTime=? WHERE counterID!=0 AND served=?';
-                db.run(sql, [ServedStatus.Served, dayjs().format('YYYY-MM-DD HH:mm:SS'), ServedStatus.Pending], (err: Error | null) => {
+                const sql = 'UPDATE ticket SET served=?, servedTime=? WHERE counterID=? AND served=?';
+                db.run(sql, [ServedStatus.Served, dayjs().format('YYYY-MM-DD HH:mm:ss'), id, ServedStatus.Pending], (err: Error | null) => {
                     if (err) {
                         reject(err);
                     }
@@ -131,8 +131,8 @@ class QueueDAO {
     setTicketNotServed(id: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             try{
-                const sql = 'UPDATE ticket SET served=? WHERE counterID!=0 AND served=?';
-                db.run(sql, [ServedStatus.NotServed, ServedStatus.Pending], (err: Error | null) => {
+                const sql = 'UPDATE ticket SET served=? WHERE counterID=? AND served=?';
+                db.run(sql, [ServedStatus.NotServed, id, ServedStatus.Pending], (err: Error | null) => {
                     if (err) {
                         reject(err);
                     }
