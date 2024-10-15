@@ -33,8 +33,11 @@ class CounterRoutes {
                 console.log('ok');
                 const counter: Counter = await this.controller.getCounter(req.params.userID);
                 res.status(200).json(counter);
-            } catch {
-              res.status(500).json({error: 'Internal server error'});
+            }catch (err: any){
+                if (err.message=='Not Found')
+                    res.status(404).json(err);
+                else
+                    res.status(500).json(err);
             }
         });
 

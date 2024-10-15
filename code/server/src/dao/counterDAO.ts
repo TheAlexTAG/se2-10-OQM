@@ -17,6 +17,9 @@ class CounterDAO{
                     if (err) {
                         reject(err);
                     }
+                    else if (!row) {
+                        reject(new Error('Not Found'));
+                    }
                     else {
                         const services: ServiceType[] = await this.getServicesByCounter(row.counterID);
                         const counter: Counter = new Counter(row.counterID, services, row.status);

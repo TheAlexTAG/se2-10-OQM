@@ -146,7 +146,40 @@
       It should return status code `200 Ok` on success.
       It should return status code `404 Not Found` if the ticket table is empty.
       It should return status code `500 Internal Server Error` if the database query throws and error.
-#### Ticket API 
+#### Counter API
+
+- GET `/api/counter/:userID`
+    - description: route for getting counter's info of a officer user;
+    - request body: none;
+    - response body: 
+    ``` json
+      {
+        "id": 1,
+        "services": [
+        {
+        "id": 1,
+        "tag": "TP01",
+        "name": "Tax payment",
+        "description": null,
+        "serviceTime": 5
+        },
+        {
+        "id": 2,
+        "tag": "PD02",
+        "name": "Package delivery",
+        "description": null,
+        "serviceTime": 10
+        }, ...
+        ],
+        "status": 1
+      }
+    ```
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `404 Not Found` if there is no counter associated to this officer.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
+
+#### Queue API
 - - GET `/api/tickets`
     - description: route for getting all the tickets that are in queue;
     - request body: none;
@@ -194,3 +227,25 @@
     - response:
       It should return status code `200 Ok` on success.
       It should return status code `500 Internal Server Error` if the database query throws and error.
+- GET `/api/served/:counterID`
+    - description: route for saving as served current customer to this counter and call the next one;
+    - request body: none;
+    - response body: 
+    ``` json (if the number is 0 there are no customer to call)
+      3
+    ```
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
+
+- GET `/api/notserved/:counterID`
+    - description: route for saving as not served current customer to this counter and call the next one;
+    - request body: none;
+    - response body: 
+    ``` json (if the number is 0 there are no customer to call)
+      3
+    ```
+    - response:
+      It should return status code `200 Ok` on success.
+      It should return status code `500 Internal Server Error` if the database query throws and error.
+
