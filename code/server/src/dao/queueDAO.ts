@@ -87,8 +87,8 @@ class QueueDAO {
     updateTicketCounter(code: number, counter: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             try{
-                const sql = 'UPDATE ticket SET counterID=? WHERE waitlistCode=? AND DAY(ticketDate)=? AND MONTH(ticketDate)=? YEAR(ticketDate)=? ';
-                db.run(sql, [counter, code, dayjs().get('date'), dayjs().get('month'), dayjs().get('year')], (err: Error | null) => {
+                const sql = 'UPDATE ticket SET counterID=? WHERE waitlistCode=? AND DATE(ticketDate)=?';
+                db.run(sql, [counter, code, dayjs().format('YYYY-MM-DD')], (err: Error | null) => {
                     if (err) {
                         reject(err);
                     }

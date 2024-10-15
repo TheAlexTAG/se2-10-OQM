@@ -29,10 +29,12 @@ class QueueController{
      */
     async getNextCustomer(id: number) : Promise<number> { 
         return new Promise<number>(async (resolve, reject) => {
+            let next: number = 0;
             let maxTime: number = 0.0;
             let selectedQueue: number[] = [];
             const services : ServiceType[] = await this.daoCounter.getServicesByCounter(id);
-            services.forEach(async (service: ServiceType) => {
+            const last: number = services[services.length-1].id;
+            for (let service of services) {
                 const queue: number[] = await this.dao.getQueueByService(service.id);
                 if (queue.length>0){
                     const counters: Counter[] = await this.daoCounter.getActiveCountersByService(service.id);
@@ -44,17 +46,23 @@ class QueueController{
                     if (time>maxTime){
                         maxTime=time;
                         selectedQueue=queue;
+                        if (service.id==last){
+                            next = Math.min(...selectedQueue);
+                            await this.dao.deleteWaitlistCode(next);
+                            await this.dao.updateTicketCounter(next, id);
+                            resolve(next);
+                        }
                     }
                 }
-            });
-            console.log(selectedQueue);
-            let next: number = 0;
-            if (maxTime>0.0){
-                next = Math.min(...selectedQueue);
-                await this.dao.deleteWaitlistCode(next);
-                await this.dao.updateTicketCounter(next, id);
+                else{
+                    if (service.id==last){
+                        next = Math.min(...selectedQueue);
+                        await this.dao.deleteWaitlistCode(next);
+                        await this.dao.updateTicketCounter(next, id);
+                        resolve(next);
+                    }
+                }
             }
-            resolve(next);
         })
     }
 
