@@ -40,5 +40,23 @@ const addTicket = async (serviceName: string) => {
   }
 }
 
-const API = { getAllServices, addTicket };
+const getAllTickets = async () => {
+    try {
+      const response = await fetch(SERVER_URL + '/getAllTickets', {
+        credentials: 'include',
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Failed to fetch services:', error);  
+      throw error;
+    }
+  };
+
+const API = { getAllServices, addTicket, getAllTickets };
 export default API;
