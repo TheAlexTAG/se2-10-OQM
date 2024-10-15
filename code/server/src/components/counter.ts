@@ -5,17 +5,18 @@ import { ServiceType } from "./service";
  */
 class Counter {
     id: number
-    counterNumber: number
-    serviceType: ServiceType[]
+    services: ServiceType[]
+    status: boolean
     /**
      * Creates a new instance of the Service class.
      * @param id ID for unique record 
-     * @param counterNumber Counter ID
+     * @param services list of services that a counter handle
+     * @param status represents if the counter is active
      */
-    constructor(id: number, counterNumber: number) {
+    constructor(id: number, services: ServiceType[], status: boolean) {
         this.id = id;
-        this.counterNumber = counterNumber;
-        this.serviceType= [];
+        this.services= services;
+        this.status = status
     }
 }
 

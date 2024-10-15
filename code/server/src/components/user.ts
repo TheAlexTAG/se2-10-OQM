@@ -25,7 +25,7 @@ class User {
  */
 enum Role {
     MANAGER = "Manager",
-    CUSTOMER = "Officer",
+    OFFICER = "Officer",
 }
 
 export { User, Role }
