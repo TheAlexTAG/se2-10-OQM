@@ -22,6 +22,15 @@ class QueueController{
         return this.dao.getAllTickets();
      } 
 
+     async getNextCustomerByQueue(id: number, queue: number[]) : Promise<number> { 
+        return new Promise<number>(async (resolve, reject) => {
+            const next: number = Math.min(...queue);
+            await this.dao.deleteWaitlistCode(next);
+            await this.dao.updateTicketCounter(next, id);
+            resolve(next);
+        })
+    }
+
     /**
      * Retrieves the next customer for a specific counter.
      * @param id - The counterID of the counter that is waiting for the customer.
@@ -47,18 +56,20 @@ class QueueController{
                         maxTime=time;
                         selectedQueue=queue;
                         if (service.id==last){
-                            next = Math.min(...selectedQueue);
-                            await this.dao.deleteWaitlistCode(next);
-                            await this.dao.updateTicketCounter(next, id);
+                            next = await this.getNextCustomerByQueue(id, selectedQueue);
+                            resolve(next);
+                        }
+                    }
+                    else{
+                        if (service.id==last){
+                            next = await this.getNextCustomerByQueue(id, selectedQueue);
                             resolve(next);
                         }
                     }
                 }
                 else{
                     if (service.id==last){
-                        next = Math.min(...selectedQueue);
-                        await this.dao.deleteWaitlistCode(next);
-                        await this.dao.updateTicketCounter(next, id);
+                        next = await this.getNextCustomerByQueue(id, selectedQueue);
                         resolve(next);
                     }
                 }
