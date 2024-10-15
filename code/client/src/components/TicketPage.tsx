@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import '../styles/TicketPage.css';
 
 export default function TicketPage() {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { ticketNumber, service } = location.state || {};
 
+  const {serviceTag, waitlistCode} = useParams();
+  const navigate = useNavigate();
   const [secondsLeft, setSecondsLeft] = useState(30);
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export default function TicketPage() {
     navigate('/');  
   };
 
-  if (!ticketNumber || !service) {
+  if (!serviceTag || !waitlistCode) {
     return <p>No ticket data available.</p>;
   }
 
@@ -39,9 +38,8 @@ export default function TicketPage() {
 
       <div className="printable-ticket alert alert-success mt-4 text-center" role="alert">
         <h4 className="alert-heading">Il tuo ticket:</h4>
-        <p>Numero: <strong>{ticketNumber}</strong></p>
-        <p>Servizio: <strong>{service.name}</strong></p>
-        <p>Tempo di attesa stimato: <strong>{service.waitTime} minuti</strong></p>
+        <p>Numero: <strong>{waitlistCode}</strong></p>
+        <p>Servizio: <strong>{serviceTag}</strong></p>
       </div>
 
         <p className="timer-text mt-3">

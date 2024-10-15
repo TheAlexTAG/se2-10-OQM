@@ -18,12 +18,12 @@ class ticketDAO {
             const sql = `INSERT INTO ticket(ticketID, serviceID, waitlistCode, counterID, servedTime, ticketDate) 
             VALUES(null, ?, ?, null, null, DATETIME('now'))`
             db.run(sql, [serviceID, waitlistCode], (err: Error) => {
-                console.log(waitlistCode);
                 if(err) {
                     console.log(err);
                     reject(err);
                 }
-                else resolve(); 
+                else resolve();
+                console.log(resolve); 
             })
         })
     }

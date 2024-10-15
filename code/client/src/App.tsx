@@ -10,7 +10,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<GetTicket/>} />
-        <Route path="/ticket/:id" element={<TicketPage/>} />
+        <Route path="/ticket/:serviceTag/:waitlistCode" element={<TicketPage/>} />
         <Route path="/login" element={<Login />} />
         <Route path="/display" element={<CallCustomer/>} />
       </Routes>
