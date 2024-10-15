@@ -4,6 +4,7 @@ import { UserRoutes } from "./src/routers/userRoutes";
 import { ServiceRoutes } from "./src/routers/serviceRoutes";
 import { TicketRoutes } from "./src/routers/ticketRoutes";
 import { QueueRoutes } from "./src/routers/queueRoutes";
+import { CounterRoutes } from "./src/routers/counterRoutes";
 
 const morgan = require("morgan"); // logging middleware
 const cors = require("cors");
@@ -83,6 +84,7 @@ new ServiceRoutes(app);
 new TicketRoutes(app);
 
 new QueueRoutes(app);
+new CounterRoutes(app);
 
 /*** Other express-related instructions ***/
 // activate the server

@@ -12,16 +12,14 @@ class CounterDAO{
     getCounter(id: number): Promise<Counter> {
         return new Promise<Counter>((resolve, reject) => {
             try {
-                const sql = 'SELECT * FROM counter C, serviceInCounter SC, service S WHERE C.counterID=SC.counterID AND SC.serviceID=S.serviceID AND C.userID = ?';
-                db.all(sql, [id], (err: Error | null, rows: any) => {
+                const sql = 'SELECT * FROM counter WHERE userID = ?';
+                db.get(sql, [id], async (err: Error | null, row: any) => {
                     if (err) {
                         reject(err);
                     }
                     else {
-                        let services: ServiceType[] = rows.map((row: any) => (
-                            new ServiceType(row.serviceID, row.serviceName, row.description,row.serviceTime)
-                        ));
-                        const counter: Counter = new Counter(rows[0].counterID, services, rows[0].status );
+                        const services: ServiceType[] = await this.getServicesByCounter(row.counterID);
+                        const counter: Counter = new Counter(row.counterID, services, row.status);
                         resolve(counter);
                     }
                 })
@@ -47,7 +45,7 @@ class CounterDAO{
                     }
                     else {
                         let services: ServiceType[] = rows.map((row: any)=> (
-                            new ServiceType(row.serviceID, row.serviceName, row.description,row.serviceTime)
+                            new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description,row.serviceTime)
                         ));
                         resolve(services);
                     }
@@ -67,16 +65,23 @@ class CounterDAO{
     getActiveCountersByService(id: number): Promise<Counter[]> {
         return new Promise<Counter[]>((resolve, reject) => {
             try{
-                const sql = 'SELECT * FROM serviceInCounter SC, counter C WHERE SC.counterID=C.counterID AND C.status=true AND SC.serviceID = ?';
+                const sql = 'SELECT * FROM serviceInCounter SC, service S WHERE S.serviceID=SC.serviceID AND SC.counterID IN (SELECT SC.counterID FROM serviceInCounter SC, counter C  WHERE SC.counterID=C.counterID AND C.status=1 AND SC.serviceID=?)';
                 db.all(sql, [id], (err: Error | null, rows: any) => {
                     if (err) {
                         reject(err);
                     }
                     else {
                         let counters: Counter[] = [];
-                        rows.forEach(async (row: any)=> {
-                            let services: ServiceType[] = await this.getServicesByCounter(row.counterID);
-                            counters.push(new Counter(row.counterID, services, row.status));
+                        let prevoiusCID: number = 0;
+                        let services: ServiceType[] = [];
+                        rows.forEach((row: any) => {
+                            if (row.counterID!=prevoiusCID){
+                                if (prevoiusCID!=0)
+                                   counters.push(new Counter(prevoiusCID, services, true));
+                                prevoiusCID = row.counterID;
+                                services = [];
+                            }
+                            services.push(new ServiceType(row.serviceID, row.serviceTag, row.serviceName, row.description, row.serviceTime));
                         });
                         resolve(counters);
                     }
