@@ -10,8 +10,8 @@ class QueueController{
     private daoCounter: CounterDAO;
 
     constructor() {
-        this.dao = new QueueDAO;
-        this.daoCounter = new CounterDAO;
+        this.dao = new QueueDAO();
+        this.daoCounter = new CounterDAO();
     }
 
     /**

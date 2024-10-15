@@ -9,23 +9,17 @@ import { Counter } from "../components/counter";
  */
 class CounterRoutes {
     private app: express.Application;
+    private isLoggedIn: (req: any, res: any, next: any) => any;
     private controller: CounterController;
 
-    constructor(app: express.Application) {
+    constructor(app: express.Application, isLoggedIn: (req: any, res: any, next: any) => any) {
         this.app = app;
+        this.isLoggedIn= isLoggedIn;
         this.controller = new CounterController();
         this.initRoutes();
     }
 
-    initRoutes(): void{
-
-        const isLoggedIn = (req:any, res:any, next:any) => {
-            if(req.isAuthenticated()) {
-              return next();
-            }
-            return res.status(401).json({error: 'Not authorized'});
-        }
-    
+    initRoutes(): void{    
         const isOfficer = (req:any, res:any, next:any) => {
             if(req.user.role==Role.OFFICER) {
               return next();
@@ -39,7 +33,7 @@ class CounterRoutes {
          * It requires as request parameter the userID, a number.
          * It returns the Counter objects.
          */
-        this.app.get('/api/counter/:userID', isLoggedIn, isOfficer, async(req: any, res: any) => {
+        this.app.get('/api/counter/:userID', this.isLoggedIn, isOfficer, async(req: any, res: any) => {
             try {
                 console.log('ok');
                 const counter: Counter = await this.controller.getCounter(req.params.userID);
