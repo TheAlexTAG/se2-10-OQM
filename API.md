@@ -88,6 +88,7 @@
     - response:
       It should return status code `200 Ok` on success.
       It should return status code `404 Not Found` if the service specified in the body is not found.
+      It should return status code `422 Validation error` if the request body is wrongly formatted.
       It should return status code `500 Internal Server Error` if the database query throws and error.
 
 - GET `/api/getAllTickets`
