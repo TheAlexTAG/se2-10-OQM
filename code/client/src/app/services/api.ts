@@ -1,34 +1,36 @@
-/*import axios from "axios";
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://localhost:3001",
+  baseURL: "http://localhost:3001/api/",
   timeout: 1000,
   headers: { "Content-Type": "application/json" },
+  withCredentials: true,
 });
 
-export default api;
-*/
-const BASE_URL = new URL("http://localhost:3001/api/");
 const getUserInfo = async () => {
   try {
-    const response = await fetch(BASE_URL + "users/sessions/current", {
-      credentials: "include",
-    });
-    if (response.ok) {
-      const user = await response.json();
-      return user;
-    } else {
-      const errDetails = await response.json();
-      throw new Error(
-        errDetails.error ? errDetails.error : errDetails.errors[0].msg
-      );
-    }
-  } catch (err) {
-    //console.error("Error fetching user: ", err);
-    throw err;
+    const response = await api.get("/sessions/current");
+    return response.data;
+  } catch (err: any) {
+    const errDetails = err.response?.data;
+    throw new Error(
+      errDetails?.error
+        ? errDetails.error
+        : errDetails?.errors?.[0]?.msg || "Unknown error"
+    );
   }
 };
 
-const API = { getUserInfo };
+const login = async (username: string, password: string) => {
+  const response = await api.post("/sessions", { username, password });
+  return response.data;
+};
+
+const logout = async () => {
+  const response = await api.delete("/sessions/current");
+  return response.data;
+};
+
+const API = { getUserInfo, login, logout };
 
 export default API;

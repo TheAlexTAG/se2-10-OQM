@@ -1,9 +1,16 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
+import API from "../app/services/api";
 
 function TopBar() {
+  const navigate = useNavigate();
   const { loggedIn } = useAuthContext();
+  const handleLogout = () => {
+    API.logout().then(() => {
+      navigate("/");
+    });
+  };
   return (
     <div>
       <Navbar bg="light" expand="lg">
@@ -57,7 +64,7 @@ function TopBar() {
               </Nav.Link>
               {loggedIn ? (
                 <Nav.Link as="div">
-                  <NavLink to="/logout" className="nav-link">
+                  <NavLink onClick={handleLogout} className="nav-link">
                     <div>Log Out</div>
                   </NavLink>
                 </Nav.Link>
