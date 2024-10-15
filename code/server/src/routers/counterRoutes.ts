@@ -41,6 +41,7 @@ class CounterRoutes {
          */
         this.app.get('/api/counter/:userID', isLoggedIn, isOfficer, async(req: any, res: any) => {
             try {
+                console.log('ok');
                 const counter: Counter = await this.controller.getCounter(req.params.userID);
                 res.status(200).json(counter);
             } catch {

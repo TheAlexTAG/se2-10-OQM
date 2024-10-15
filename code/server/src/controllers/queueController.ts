@@ -37,9 +37,8 @@ class QueueController{
                 if (queue.length>0){
                     const counters: Counter[] = await this.daoCounter.getActiveCountersByService(service.id);
                     let den: number = 0.0;
-                    counters.forEach(async (counter: Counter) =>{
-                        const serv: ServiceType[] = await this.daoCounter.getServicesByCounter(counter.id);
-                        den += 1/serv.length;
+                    counters.forEach((counter: Counter) =>{
+                        den += 1/counter.services.length;
                     })
                     const time: number = ((queue.length/den)+0.5)*service.serviceTime;
                     if (time>maxTime){
@@ -48,6 +47,7 @@ class QueueController{
                     }
                 }
             });
+            console.log(selectedQueue);
             let next: number = 0;
             if (maxTime>0.0){
                 next = Math.min(...selectedQueue);
