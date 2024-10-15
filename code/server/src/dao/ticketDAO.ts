@@ -127,6 +127,16 @@ class ticketDAO {
             })
         })
     }
+
+    deleteAllticketsQueue(): Promise<void> {
+        return new Promise((resolve, reject) => {
+            const sql = `DELETE FROM queue`
+            db.run(sql, [], (err: Error) => {
+                if(err) reject(err);
+                else resolve();
+            })
+        })
+    }
 }
 
 export {ticketDAO};

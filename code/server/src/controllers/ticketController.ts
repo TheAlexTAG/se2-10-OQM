@@ -39,6 +39,7 @@ class ticketController {
             let tickets = await this.dao.getAllTickets();
             if(tickets.length === 0) throw new TicketListEmpty();
             await this.dao.deleteAllTickets();
+            await this.dao.deleteAllticketsQueue();
             return;
         }
         catch(err) {
