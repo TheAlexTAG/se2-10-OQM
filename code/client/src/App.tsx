@@ -16,7 +16,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<TopBar />}>
           <Route index element={<GetTicket />} />
-          <Route path="/ticket/:id" element={<TicketPage />} />
+          <Route path="/ticket/:serviceTag/:waitlistCode" element={<TicketPage />} />
           <Route path="/display" element={<CallCustomer />} />
           <Route path="/officer" element={<CallNextCustomer />} />
           <Route
