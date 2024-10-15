@@ -20,7 +20,6 @@ const getAllServices = async () => {
 
 const addTicket = async (serviceName: string) => {
   try {
-    console.log('Adding ticket:', serviceName);
     const response = await fetch(SERVER_URL + '/addTicket', {
       method: 'POST',
       headers: {

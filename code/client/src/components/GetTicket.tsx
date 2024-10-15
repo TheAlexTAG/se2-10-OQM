@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../styles/GetTicket.css';
-import API from '../API'; // Assumendo che questa API contenga la chiamata addTicket
-
+import API from '../API'; 
 interface Service {
   id: number;
   tag: string;
@@ -41,7 +40,6 @@ export default function GetTicket() {
   const handleSelectService = async (service: Service) => {
     try {
       const response = await API.addTicket(service.name);
-      console.log(response);
 
       const waitlistCode = response.waitlistCode; // Ottieni il codice della lista d'attesa
       
