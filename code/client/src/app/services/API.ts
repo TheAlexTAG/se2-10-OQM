@@ -64,10 +64,7 @@ const getAllTickets = async () => {
 
 const getCounterByUserId = async (userId: number) => {
   try {
-    console.log("my userid is", userId);
-
     const response = await api.get("/counter/" + userId);
-    console.log("response is ", response.data);
     return response.data;
   } catch (error) {
     console.error("Failed to fetch counter", error);
@@ -88,7 +85,15 @@ const getCurrentCustomer = async (counterId: number | null) => {
 const getServedNextCustomer = async (counterId: number | null) => {
   try {
     const response = await api.get("/served/" + counterId);
-    console.log("my response is this: ", response.data);
+    return response.data;
+  } catch (err) {
+    console.error("Failed to fetch next customer");
+    throw err;
+  }
+};
+const getNotServedNextCustomer = async (counterId: number | null) => {
+  try {
+    const response = await api.get("/notserved/" + counterId);
     return response.data;
   } catch (err) {
     console.error("Failed to fetch next customer");
@@ -106,6 +111,7 @@ const API = {
   getCounterByUserId,
   getCurrentCustomer,
   getServedNextCustomer,
+  getNotServedNextCustomer,
 };
 
 export default API;

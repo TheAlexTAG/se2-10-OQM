@@ -25,6 +25,7 @@ const CallNextCustomer = () => {
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [isTicketLoaded, setIsTicketLoaded] = useState(false);
   const { counterId } = useAuthContext();
   const fetchCurrentCustomer = async () => {
     setLoading(true);
@@ -41,12 +42,26 @@ const CallNextCustomer = () => {
     }
   };
 
-  const fetchNextCustomer = async () => {
+  const fetchServedNextCustomer = async () => {
     setLoading(true);
     setError(null); // Reset error
     try {
       const myData = await API.getServedNextCustomer(counterId);
       setCurrentTicket(myData.data);
+      setIsTicketLoaded(true);
+    } catch (err) {
+      setError("No more customers in the queue or an error occurred.");
+    } finally {
+      setLoading(false);
+    }
+  };
+  const fetchNotServedNextCustomer = async () => {
+    setLoading(true);
+    setError(null); // Reset error
+    try {
+      const myData = await API.getNotServedNextCustomer(counterId);
+      setCurrentTicket(myData.data);
+      setIsTicketLoaded(true);
     } catch (err) {
       setError("No more customers in the queue or an error occurred.");
     } finally {
@@ -75,9 +90,16 @@ const CallNextCustomer = () => {
 
   useEffect(() => {
     // Fetch the current customer automatically when the page loads
-    fetchCurrentCustomer();
-  }, []);
-  console.log(!!currentTicket);
+    if (counterId) fetchCurrentCustomer();
+  }, [counterId]);
+
+  useEffect(() => {
+    if (isTicketLoaded) {
+      fetchCurrentCustomer();
+      setIsTicketLoaded(false);
+    }
+  }, [isTicketLoaded]);
+
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
       <h2 className="text-center mb-4">Counter {counterId}</h2>
@@ -107,12 +129,21 @@ const CallNextCustomer = () => {
             <Card.Text>Service Type: {currentTicket.serviceID}</Card.Text>
             <Card.Text>Waitlist Code: {currentTicket.waitlistCode}</Card.Text>
             <Button
-              variant="success"
-              onClick={fetchNextCustomer}
+              variant="danger"
+              onClick={fetchNotServedNextCustomer}
               disabled={loading}
               className="mt-3"
             >
-              Call Next Customer
+              (Not served) Call Next Customer
+            </Button>
+
+            <Button
+              variant="success"
+              onClick={fetchServedNextCustomer}
+              disabled={loading}
+              className="mt-3"
+            >
+              (Served) Call Next Customer
             </Button>
 
             {/*<Button
@@ -137,11 +168,11 @@ const CallNextCustomer = () => {
             <Col xs="auto">
               <Button
                 variant="primary"
-                onClick={fetchNextCustomer}
-                disabled={loading || !!currentTicket}
+                onClick={fetchServedNextCustomer}
+                disabled={loading}
                 className="mt-3"
               >
-                (Mark as served) Call Next Customer
+                (Served) Call Next Customer
               </Button>
             </Col>
           </Row>

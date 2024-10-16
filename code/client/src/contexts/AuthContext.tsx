@@ -42,9 +42,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const userData = await API.getUserInfo();
         setLoggedIn(true);
         setUser(userData);
-        console.log(userData.id);
         const counterData = await API.getCounterByUserId(userData.id);
-        //console.log(counterData);
         setCounterId(counterData.id);
       } catch (error) {
         setLoggedIn(false);
@@ -53,21 +51,6 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     checkAuth();
   }, []);
-
-  /*useEffect(() => {
-    const checkCounter = async () => {
-      try {
-        console.log("hello", user);
-        const counterData = await API.getCounterByUserId(user.id);
-        console.log("sss");
-        setCounterId(counterData.id);
-      } catch (error) {
-        setCounterId(null);
-      }
-    };
-    checkCounter();
-  }, []);*/
-
   return (
     <AuthContext.Provider
       value={{ loggedIn, setLoggedIn, user, setUser, counterId, setCounterId }}
