@@ -13,6 +13,8 @@ interface AuthContextType {
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: any;
   setUser: React.Dispatch<React.SetStateAction<any>>;
+  counterId: number | null;
+  setCounterId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [counterId, setCounterId] = useState<number | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -39,6 +42,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const userData = await API.getUserInfo();
         setLoggedIn(true);
         setUser(userData);
+        const counterData = await API.getCounterByUserId(userData.id);
+        setCounterId(counterData.id);
       } catch (error) {
         setLoggedIn(false);
         setUser(null);
@@ -46,9 +51,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     };
     checkAuth();
   }, []);
-
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn, user, setUser }}>
+    <AuthContext.Provider
+      value={{ loggedIn, setLoggedIn, user, setUser, counterId, setCounterId }}
+    >
       {children}
     </AuthContext.Provider>
   );

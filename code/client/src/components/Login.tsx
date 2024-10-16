@@ -3,14 +3,15 @@ import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import API from "../app/services/API";
 import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../contexts/AuthContext";
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
   const [username, setusername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const { setUser, setLoggedIn } = useAuthContext();
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!username) {
       setError("Please enter your username.");
@@ -19,13 +20,13 @@ const Login: React.FC = () => {
       setError("Please enter your password.");
       return;
     } else {
-      API.login(username, password)
-        .then((response: any) => {
-          navigate("/officer");
-        })
-        .catch((err: any) => {
-          setError(err.response.data.message);
-        });
+      try {
+        const user = await API.login(username, password);
+        setLoggedIn(true);
+        setUser(user);
+      } catch (err) {
+        setError("Failed to log in");
+      }
     }
 
     setError("");
@@ -74,4 +75,19 @@ const Login: React.FC = () => {
   );
 };
 
-export default Login;
+const LogoutButton = () => {
+  const navigate = useNavigate();
+  const { setLoggedIn } = useAuthContext();
+  const handleLogout = async () => {
+    await API.logout();
+    setLoggedIn(false);
+    navigate("/");
+  };
+  return (
+    <Button variant="outline-secondary" onClick={handleLogout}>
+      Logout
+    </Button>
+  );
+};
+
+export { Login, LogoutButton };
