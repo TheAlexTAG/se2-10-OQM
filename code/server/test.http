@@ -23,3 +23,12 @@ GET http://localhost:3001/api/counter/4
 ## Set served and get next customer
 GET http://localhost:3001/api/served/2
 ###
+
+## Set not served and get next customer
+GET http://localhost:3001/api/notserved/2
+###
+
+## Set not served and get next customer
+GET http://localhost:3001/api/notserved/2
+###
+

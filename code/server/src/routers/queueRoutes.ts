@@ -24,7 +24,7 @@ class QueueRoutes {
     initRoutes(): void{  
 
         this.app.get('/api/tickets',
-            (req: any, res: any, next: any) => this.controller.getAllTickets()
+            (req: any, res: any, next: any) => this.controller.getAllTicketsInQueues()
                 .then((users: Ticket[]) => res.status(200).json(users))
                 .catch((err: any) => next(err))
         );
