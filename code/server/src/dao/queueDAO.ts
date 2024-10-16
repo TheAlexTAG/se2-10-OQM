@@ -17,10 +17,10 @@ class QueueDAO {
      * Returns an array of tickets
      * @returns A Promise that resolves the information of the requested queue
      */
-    getAllTickets(): Promise<Ticket[]> {
+    getAllTicketsInQueues(): Promise<Ticket[]> {
         return new Promise<Ticket[]>((resolve, reject) => {
             try {
-                const sql = "SELECT * FROM ticket WHERE served= 0"
+                const sql = "SELECT * FROM ticket WHERE served=0"
                 db.all(sql, [], (err: Error | null, rows: any) => {
                     const res = [];
                     if (err) {

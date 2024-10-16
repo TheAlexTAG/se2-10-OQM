@@ -42,7 +42,6 @@ class UserDAO {
    * @returns A Promise that resolves the information of the requested user
    */
   getUser(username: string, password: string): Promise<any> {
-    console.log(username, password);
 
     return new Promise((resolve, reject) => {
       const sql = "SELECT * FROM user WHERE username = ?";

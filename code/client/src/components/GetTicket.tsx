@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/GetTicket.css";
-import API from "../API.ts";
+import API from "../API";
 import { Container } from "react-bootstrap";
 interface Service {
   id: number;
