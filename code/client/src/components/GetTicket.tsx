@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import '../styles/GetTicket.css';
-import API from '../API.ts'; 
-import { Container } from 'react-bootstrap';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "../styles/GetTicket.css";
+import API from "../API.ts";
+import { Container } from "react-bootstrap";
 interface Service {
   id: number;
   tag: string;
@@ -21,16 +21,16 @@ export default function GetTicket() {
     const fetchServices = async () => {
       try {
         setLoading(true);
-        const response = await API.getAllServices(); 
+        const response = await API.getAllServices();
         if (Array.isArray(response)) {
           setServices(response);
         } else {
-          setError('Unexpected response format');
+          setError("Unexpected response format");
         }
         setLoading(false);
       } catch (err) {
-        console.error(err); 
-        setError('Failed to load services');
+        console.error(err);
+        setError("Failed to load services");
         setLoading(false);
       }
     };
@@ -43,11 +43,11 @@ export default function GetTicket() {
       const response = await API.addTicket(service.name);
 
       const waitlistCode = response.waitlistCode;
-      
+
       navigate(`/ticket/${service.tag}/${waitlistCode}`);
     } catch (err) {
-      console.error('Failed to add ticket:', err);
-      setError('Failed to add ticket');
+      console.error("Failed to add ticket:", err);
+      setError("Failed to add ticket");
     }
   };
 
@@ -82,5 +82,4 @@ export default function GetTicket() {
       </div>
     </Container>
   );
-  
 }

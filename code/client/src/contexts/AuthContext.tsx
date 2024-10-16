@@ -13,6 +13,8 @@ interface AuthContextType {
   setLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: any;
   setUser: React.Dispatch<React.SetStateAction<any>>;
+  counterId: number | null;
+  setCounterId: React.Dispatch<React.SetStateAction<number | null>>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -32,6 +34,7 @@ interface AuthProviderProps {
 export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const [counterId, setCounterId] = useState<number | null>(null);
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -39,6 +42,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         const userData = await API.getUserInfo();
         setLoggedIn(true);
         setUser(userData);
+        console.log(userData.id);
+        const counterData = await API.getCounterByUserId(userData.id);
+        //console.log(counterData);
+        setCounterId(counterData.id);
       } catch (error) {
         setLoggedIn(false);
         setUser(null);
@@ -47,8 +54,24 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     checkAuth();
   }, []);
 
+  /*useEffect(() => {
+    const checkCounter = async () => {
+      try {
+        console.log("hello", user);
+        const counterData = await API.getCounterByUserId(user.id);
+        console.log("sss");
+        setCounterId(counterData.id);
+      } catch (error) {
+        setCounterId(null);
+      }
+    };
+    checkCounter();
+  }, []);*/
+
   return (
-    <AuthContext.Provider value={{ loggedIn, setLoggedIn, user, setUser }}>
+    <AuthContext.Provider
+      value={{ loggedIn, setLoggedIn, user, setUser, counterId, setCounterId }}
+    >
       {children}
     </AuthContext.Provider>
   );

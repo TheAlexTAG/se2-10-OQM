@@ -9,10 +9,12 @@ import {
   Row,
   Col,
 } from "react-bootstrap";
+import { useAuthContext } from "../contexts/AuthContext";
+import API from "../app/services/API";
 
 interface Ticket {
-  ticketId: number;
-  serviceId: number;
+  ticketID: number;
+  serviceID: number;
   waitlistCode: number;
   counterId: number;
   servedTime: Date;
@@ -24,18 +26,15 @@ const CallNextCustomer = () => {
   const [currentTicket, setCurrentTicket] = useState<Ticket | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-
-  // Fixed counterId for testing (can be dynamic in production)
-  const counterId = 1;
-
+  const { counterId } = useAuthContext();
   const fetchCurrentCustomer = async () => {
     setLoading(true);
     setError(null); // Reset error
+
     try {
-      const response = await axios.post<Ticket>("/api/current-customer", {
-        counterId: counterId,
-      });
-      setCurrentTicket(response.data);
+      const ticketData = await API.getCurrentCustomer(counterId);
+
+      setCurrentTicket(ticketData);
     } catch (err) {
       setError("No more customers in the queue or an error occurred.");
     } finally {
@@ -47,10 +46,8 @@ const CallNextCustomer = () => {
     setLoading(true);
     setError(null); // Reset error
     try {
-      const response = await axios.post<Ticket>("/api/next-customer", {
-        counterId: counterId,
-      });
-      setCurrentTicket(response.data);
+      const myData = await API.getServedNextCustomer(counterId);
+      setCurrentTicket(myData.data);
     } catch (err) {
       setError("No more customers in the queue or an error occurred.");
     } finally {
@@ -59,7 +56,7 @@ const CallNextCustomer = () => {
   };
 
   // Mark the current request as done
-  const markCurrentAsDone = async () => {
+  /*const markCurrentAsDone = async () => {
     if (!currentTicket) return;
 
     setLoading(true);
@@ -75,19 +72,16 @@ const CallNextCustomer = () => {
     } finally {
       setLoading(false);
     }
-  };
+  };*/
 
   useEffect(() => {
     // Fetch the current customer automatically when the page loads
     fetchCurrentCustomer();
   }, []);
-
+  console.log(!!currentTicket);
   return (
     <Container className="mt-5 d-flex flex-column align-items-center">
-      <h2 className="text-center mb-4">
-        Counter {counterId} - Call Next Customer
-      </h2>
-
+      <h2 className="text-center mb-4">Counter {counterId}</h2>
       {/* Loading Spinner */}
       {loading && (
         <div className="text-center mb-4">
@@ -96,14 +90,12 @@ const CallNextCustomer = () => {
           </Spinner>
         </div>
       )}
-
       {/* Error Message */}
       {error && (
         <Alert variant="danger" className="text-center">
           {error}
         </Alert>
       )}
-
       {/* Current Ticket Information */}
       {currentTicket ? (
         <Card
@@ -112,16 +104,25 @@ const CallNextCustomer = () => {
         >
           <Card.Header as="h5">Current Ticket</Card.Header>
           <Card.Body>
-            <Card.Title>Ticket ID: {currentTicket.ticketId}</Card.Title>
-            <Card.Text>Service Type: {currentTicket.serviceId}</Card.Text>
+            <Card.Title>Ticket ID: {currentTicket.ticketID}</Card.Title>
+            <Card.Text>Service Type: {currentTicket.serviceID}</Card.Text>
             <Card.Text>Waitlist Code: {currentTicket.waitlistCode}</Card.Text>
             <Button
+              variant="success"
+              onClick={fetchNextCustomer}
+              disabled={loading}
+              className="mt-3"
+            >
+              Call Next Customer
+            </Button>
+
+            {/*<Button
               variant="success"
               onClick={markCurrentAsDone}
               disabled={loading}
             >
               Mark as Done
-            </Button>
+            </Button>*/}
           </Card.Body>
         </Card>
       ) : (
@@ -133,9 +134,8 @@ const CallNextCustomer = () => {
           No active ticket. Call the next customer.
         </Alert>
       )}
-
       {/* Call Next Customer Button */}
-      <Row className="justify-content-center">
+      {/* <Row className="justify-content-center">
         <Col xs="auto">
           <Button
             variant="primary"
@@ -146,7 +146,7 @@ const CallNextCustomer = () => {
             Call Next Customer
           </Button>
         </Col>
-      </Row>
+      </Row>*/}
     </Container>
   );
 };
