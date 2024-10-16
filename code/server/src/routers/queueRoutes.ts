@@ -1,7 +1,9 @@
 import express from 'express';
 import { QueueController } from '../controllers/queueController';
+import { CounterController } from '../controllers/counterController';
 import { Ticket } from '../components/ticket';
 import { Utilities } from '../utilities';
+import { Counter } from '../components/counter';
 
 
 /**
@@ -11,12 +13,14 @@ class QueueRoutes {
     private app: express.Application;
     private isLoggedIn: (req: any, res: any, next: any) => any;
     private controller: QueueController;
+    private controllerCounter: CounterController;
     private utilities: Utilities;
 
     constructor(app: express.Application, isLoggedIn: (req: any, res: any, next: any) => any) {
         this.app = app;
         this.isLoggedIn= isLoggedIn;
         this.controller = new QueueController();
+        this.controllerCounter = new CounterController();
         this.utilities= new Utilities();
         this.initRoutes();
     }
@@ -36,8 +40,14 @@ class QueueRoutes {
          */
         this.app.get('/api/served/:counterID', this.isLoggedIn, this.utilities.isOfficer, this.utilities.isEnabled, async(req: any, res: any) => {
             try {
-                const customer: number = await this.controller.setServed(req.params.counterID);
-                res.status(200).json(customer);
+                const counter: Counter = await this.controllerCounter.getCounter(req.user.id);
+                if (counter.id!=req.params.counterID){
+                    res.status(401).json({error: 'Unauthorized'});
+                }
+                else{
+                    const customer: number = await this.controller.setServed(req.params.counterID);
+                    res.status(200).json(customer);
+                } 
             } catch {
               res.status(500).json({error: 'Internal server error'});
             }
@@ -51,8 +61,14 @@ class QueueRoutes {
          */
         this.app.get('/api/notserved/:counterID', this.isLoggedIn, this.utilities.isOfficer, this.utilities.isEnabled, async(req: any, res: any) => {
             try {
-                const customer: number = await this.controller.setNotServed(req.params.counterID);
-                res.status(200).json(customer);
+                const counter: Counter = await this.controllerCounter.getCounter(req.user.id);
+                if (counter.id!=req.params.counterID){
+                    res.status(401).json({error: 'Unauthorized'});
+                }
+                else{
+                    const customer: number = await this.controller.setNotServed(req.params.counterID);
+                    res.status(200).json(customer);
+                }
             } catch {
               res.status(500).json({error: 'Internal server error'});
             }
