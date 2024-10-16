@@ -7,25 +7,13 @@ import db from "../db/db";
 
 export const cleanup = (): Promise<void> => {
     return new Promise<void>((resolve, reject) => {
-        db.run("DELETE FROM counter", (err: any, _: any) => {
-            if (err) 
+        db.run("DELETE FROM queue", (err: any, _: any) => {
+            if (err)
                 return reject();
-            db.run("DELETE FROM queue", (err: any, _: any) => {
-                if (err) 
+            db.run("DELETE FROM ticket", (err: any, _: any) => {
+                if (err)
                     return reject();
-                db.run("DELETE FROM service", (err: any, _: any) => {
-                    if (err) 
-                        return reject();
-                    db.run("DELETE FROM serviceInCounter", (err: any, _: any) => {
-                        if (err) 
-                            return reject();
-                        db.run("DELETE FROM ticket", (err: any, _: any) => {
-                            if (err) 
-                                return reject();
-                            resolve();                            
-                        });
-                    });
-                });
+                resolve();
             });
         });
     });

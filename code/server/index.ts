@@ -88,8 +88,8 @@ new CounterRoutes(app, isLoggedIn);
 
 /*** Other express-related instructions ***/
 // activate the server
-app.listen(port, () => {
+const server= app.listen(port, () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
 
-export {app};
+export {app, server};
