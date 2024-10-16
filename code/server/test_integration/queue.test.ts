@@ -5,11 +5,6 @@ import { app, server } from "../index";
 import { cleanup } from "../src/db/cleanup";
 import db from "../src/db/db";
 
-
-
-const dayjs= require("dayjs");
-
-
 const baseURL = "/api";
 
 //Default user information. We use them to create users and evaluate the returned values
@@ -33,7 +28,8 @@ const ticketsList: any[]= [
     {serviceName: "Tax payment"},
     {serviceName: "Package delivery"},
     {serviceName: "Package delivery"},
-    {serviceName: "Tax payment"}
+    {serviceName: "Tax payment"},
+    {serviceName: "Package delivery"}
 ];
 
 
@@ -100,20 +96,22 @@ describe("GET served/:counterID --> integration", () => {
 
     test("Test success served the customer and call next customer", async () => {
         await createTickets(ticketsList);
+        const t= await request(app).get(`${baseURL}/getAllTickets`)
+        console.log(t.body)
                 
         const first= await request(app).get(`${baseURL}/served/1`).set("Cookie", officerCookie).expect(200);
         expect(first).toBeDefined(); //We expect the user we have created to exist in the array. The parameter should also be equal to those we have sent
-        expect(first.body).toBe(2);
+        expect(first.body).toBe(1);
 
         const queueLen1= await countQueue();
-        expect(queueLen1).toBe(11);
+        expect(queueLen1).toBe(12);
 
         const second= await request(app).get(`${baseURL}/served/1`).set("Cookie", officerCookie).expect(200);
         expect(second).toBeDefined();
-        expect(second.body).toBe(1);
+        expect(second.body).toBe(2);
 
         const queueLen2= await countQueue();
-        expect(queueLen2).toBe(10);
+        expect(queueLen2).toBe(11);
         
         const servedTicket= await getTicket(2);
         expect(servedTicket).toBe(1);
@@ -154,17 +152,17 @@ describe("GET notserved/:counterID --> integration", () => {
                 
         const first= await request(app).get(`${baseURL}/notserved/1`).set("Cookie", officerCookie).expect(200);
         expect(first).toBeDefined(); 
-        expect(first.body).toBe(2);
+        expect(first.body).toBe(1);
 
         const queueLen1= await countQueue();
-        expect(queueLen1).toBe(11);
+        expect(queueLen1).toBe(12);
 
         const second= await request(app).get(`${baseURL}/notserved/1`).set("Cookie", officerCookie).expect(200);
         expect(second).toBeDefined();
-        expect(second.body).toBe(1);
+        expect(second.body).toBe(2);
 
         const queueLen2= await countQueue();
-        expect(queueLen2).toBe(10);
+        expect(queueLen2).toBe(11);
         
         const servedTicket= await getTicket(2);
         expect(servedTicket).toBe(2);
