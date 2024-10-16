@@ -1,11 +1,9 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
-import API from "../app/services/API";
 import { LogoutButton } from "./Login";
 
 function TopBar() {
-  const navigate = useNavigate();
   const { loggedIn } = useAuthContext();
 
   return (
