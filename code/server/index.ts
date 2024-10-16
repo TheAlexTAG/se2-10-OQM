@@ -83,8 +83,8 @@ new UserRoutes(app, passport, isLoggedIn);
 new ServiceRoutes(app);
 new TicketRoutes(app);
 
-new QueueRoutes(app);
-new CounterRoutes(app);
+new QueueRoutes(app, isLoggedIn);
+new CounterRoutes(app, isLoggedIn);
 
 /*** Other express-related instructions ***/
 // activate the server

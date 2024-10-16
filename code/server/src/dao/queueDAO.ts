@@ -3,6 +3,12 @@ import { ServedStatus } from "../components/ticket";
 import dayjs from 'dayjs';
 import db from "../db/db";
 
+/* Sanitize input */
+const createDOMPurify = require("dompurify");
+const { JSDOM } = require("jsdom");
+const window = new JSDOM("").window;
+const DOMPurify = createDOMPurify(window);
+
 /**
  * A class that implements the interaction with the database for all ticket-related operations.
  */
@@ -22,7 +28,15 @@ class QueueDAO {
                         return
                     }
                     for (let row of rows) {
-                        res.push(new Ticket(row.ticketID, row.serviceID, row.waitlistCode, row.counterID, row.servedTime, row.ticketDate, row.served));
+                        res.push(new Ticket(
+                            +DOMPurify.sanitize(row.ticketID), 
+                            +DOMPurify.sanitize(row.serviceID), 
+                            +DOMPurify.sanitize(row.waitlistCode), 
+                            +DOMPurify.sanitize(row.counterID) || null, 
+                            DOMPurify.sanitize(row.servedTime) || null, 
+                            DOMPurify.sanitize(row.ticketDate), 
+                            +DOMPurify.sanitize(row.served))
+                        );
                     }
                     resolve(res);
                 })
@@ -87,8 +101,8 @@ class QueueDAO {
     updateTicketCounter(code: number, counter: number): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {
             try{
-                const sql = 'UPDATE ticket SET counterID=? WHERE waitlistCode=? AND DAY(ticketDate)=? AND MONTH(ticketDate)=? YEAR(ticketDate)=? ';
-                db.run(sql, [counter, code, dayjs().get('date'), dayjs().get('month'), dayjs().get('year')], (err: Error | null) => {
+                const sql = 'UPDATE ticket SET counterID=? WHERE waitlistCode=? AND DATE(ticketDate)=?';
+                db.run(sql, [counter, code, dayjs().format('YYYY-MM-DD')], (err: Error | null) => {
                     if (err) {
                         reject(err);
                     }
