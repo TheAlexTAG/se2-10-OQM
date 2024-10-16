@@ -5,7 +5,7 @@ import {
   useEffect,
   ReactNode,
 } from "react";
-import API from "../app/services/api";
+import API from "../app/services/API";
 //import API from "../utils/API.mjs";
 
 interface AuthContextType {
