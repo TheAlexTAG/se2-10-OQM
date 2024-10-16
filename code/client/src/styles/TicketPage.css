@@ -25,7 +25,6 @@
   }
   
   @media print {
-    /* Nasconde tutto tranne il biglietto durante la stampa */
     body * {
       visibility: hidden;
     }

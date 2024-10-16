@@ -42,9 +42,8 @@ export default function GetTicket() {
     try {
       const response = await API.addTicket(service.name);
 
-      const waitlistCode = response.waitlistCode; // Ottieni il codice della lista d'attesa
+      const waitlistCode = response.waitlistCode;
       
-      // Reindirizza alla pagina di conferma del ticket passando il numero e il servizio
       navigate(`/ticket/${service.tag}/${waitlistCode}`);
     } catch (err) {
       console.error('Failed to add ticket:', err);
@@ -61,16 +60,17 @@ export default function GetTicket() {
   }
 
   return (
-    <Container className ="sm-5">
-      <div className="card p-4">
-        <h1 className="text-center">Select a Service</h1>
-        <div className="d-flex justify-content-center my-4">
+    <Container className="centered-container sm-5">
+      <div className="border rounded col-md-8 custom-class">
+        <h1 className="text-center">Choose your Service</h1>
+        <div className="d-flex flex-column align-items-center my-4">
           {Array.isArray(services) && services.length > 0 ? (
             services.map((service) => (
               <button
                 key={service.id}
                 onClick={() => handleSelectService(service)}
-                className="btn btn-primary mx-2"
+                className="btn btn-primary my-2"
+                style={{ width: "100%", maxWidth: "300px" }}
               >
                 {service.name}
               </button>
@@ -82,4 +82,5 @@ export default function GetTicket() {
       </div>
     </Container>
   );
+  
 }

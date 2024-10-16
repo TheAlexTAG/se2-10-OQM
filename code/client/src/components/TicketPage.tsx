@@ -17,7 +17,6 @@ export default function TicketPage() {
       navigate('/');
     }, 30000);
 
-    // Cleanup timer
     return () => {
       clearInterval(timer);
       clearTimeout(redirectTimeout);
@@ -25,7 +24,7 @@ export default function TicketPage() {
   }, [navigate]);
 
   const handlePrintTicket = () => {
-    window.print(); // Apre la finestra di dialogo di stampa
+    window.print();
     navigate('/');  
   };
 
