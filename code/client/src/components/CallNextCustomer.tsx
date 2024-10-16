@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import {
   Alert,
   Button,
@@ -126,13 +125,27 @@ const CallNextCustomer = () => {
           </Card.Body>
         </Card>
       ) : (
-        <Alert
-          variant="info"
-          className="text-center"
-          style={{ maxWidth: "500px", width: "100%" }}
-        >
-          No active ticket. Call the next customer.
-        </Alert>
+        <>
+          <Alert
+            variant="info"
+            className="text-center"
+            style={{ maxWidth: "500px", width: "100%" }}
+          >
+            No active ticket. Call the next customer.
+          </Alert>
+          <Row className="justify-content-center">
+            <Col xs="auto">
+              <Button
+                variant="primary"
+                onClick={fetchNextCustomer}
+                disabled={loading || !!currentTicket}
+                className="mt-3"
+              >
+                (Mark as served) Call Next Customer
+              </Button>
+            </Col>
+          </Row>
+        </>
       )}
       {/* Call Next Customer Button */}
       {/* <Row className="justify-content-center">
