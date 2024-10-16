@@ -1,7 +1,7 @@
 import { useState, FormEvent } from "react";
 import { Form, Button, Container, Row, Col, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import API from "../app/services/api";
+import API from "../app/services/API";
 import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {

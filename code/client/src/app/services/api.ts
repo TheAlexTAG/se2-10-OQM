@@ -31,6 +31,44 @@ const logout = async () => {
   return response.data;
 };
 
-const API = { getUserInfo, login, logout };
+const getAllServices = async () => {
+  try {
+    const response = await axios.get(`/getAllServices`);
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch services:", error);
+    throw error;
+  }
+};
+
+const addTicket = async (serviceName: string) => {
+  try {
+    const response = await axios.post(`/addTicket`, { serviceName });
+    return response.data;
+  } catch (error) {
+    console.error("Failed to add ticket:", error);
+    throw error;
+  }
+};
+
+const getAllTickets = async () => {
+  try {
+    const response = await axios.get(`/getAllTickets`);
+
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch tickets:", error);
+    throw error;
+  }
+};
+
+const API = {
+  getUserInfo,
+  login,
+  logout,
+  getAllServices,
+  addTicket,
+  getAllTickets,
+};
 
 export default API;

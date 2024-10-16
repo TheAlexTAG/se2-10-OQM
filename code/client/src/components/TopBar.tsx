@@ -1,7 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Navbar, Container, Nav } from "react-bootstrap";
 import { useAuthContext } from "../contexts/AuthContext";
-import API from "../app/services/api";
+import API from "../app/services/API";
 
 function TopBar() {
   const navigate = useNavigate();

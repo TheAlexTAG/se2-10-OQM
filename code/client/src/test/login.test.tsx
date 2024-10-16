@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter, useNavigate } from "react-router-dom";
 import Login from "../components/Login";
-import API from "../app/services/api";
+import API from "../app/services/API";
 jest.mock("../app/services/api");
 jest.mock("react-router-dom", () => ({
   ...jest.requireActual("react-router-dom"),
