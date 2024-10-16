@@ -32,7 +32,7 @@ class ticketDAO {
      */
     getNextWaitlistCode(): Promise<number> {
         return new Promise((resolve, reject) => {
-            const sql = `SELECT MAX(waitlistCode) AS maxCode FROM queue`
+            const sql = `SELECT MAX(waitlistCode) AS maxCode FROM ticket WHERE strftime('%Y-%m-%d', ticketDate) = DATE('now')`
             db.get(sql, [], (err: Error, row: {maxCode: number}) => {
                 if(err) reject(err)
                 row.maxCode ? resolve(row.maxCode + 1) : resolve(1)
