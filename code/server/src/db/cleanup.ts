@@ -22,11 +22,7 @@ export const cleanup = (): Promise<void> => {
                         db.run("DELETE FROM ticket", (err: any, _: any) => {
                             if (err) 
                                 return reject();
-                            db.run("DELETE FROM user", (err: any, _: any) => {
-                                if (err) 
-                                    return reject();
-                                resolve();
-                            });
+                            resolve();                            
                         });
                     });
                 });
