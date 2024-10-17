@@ -13,37 +13,36 @@ const DOMPurify = createDOMPurify(window);
  * A class that implements the interaction with the database for all ticket-related operations.
  */
 class QueueDAO {
-  /**
-   * Returns an array of tickets
-   * @returns A Promise that resolves the information of the requested queue
-   */
-  getAllTicketsInQueues(): Promise<Ticket[]> {
-    return new Promise<Ticket[]>((resolve, reject) => {
-      try {
-        const sql = "SELECT * FROM ticket WHERE served=0";
-        db.all(sql, [], (err: Error | null, rows: any) => {
-          const res = [];
-          if (err) {
-            reject(err);
-            return;
-          }
-          for (let row of rows) {
-            res.push(
-              new Ticket(
-                +DOMPurify.sanitize(row.ticketID),
-                +DOMPurify.sanitize(row.serviceID),
-                +DOMPurify.sanitize(row.waitlistCode),
-                +DOMPurify.sanitize(row.counterID) || null,
-                DOMPurify.sanitize(row.servedTime) || null,
-                DOMPurify.sanitize(row.ticketDate),
-                +DOMPurify.sanitize(row.served)
-              )
-            );
-          }
-          resolve(res);
-        });
-      } catch (error) {
-        reject(error);
+    /**
+     * 
+     * Returns an array of tickets
+     * @returns A Promise that resolves the information of the requested queue
+     */
+    getAllTicketsInQueues(): Promise<Ticket[]> {
+        return new Promise<Ticket[]>((resolve, reject) => {
+            try {
+                const sql = "SELECT * FROM ticket WHERE served=0 ORDER BY CounterID DESC"
+                db.all(sql, [], (err: Error | null, rows: any) => {
+                    const res = [];
+                    if (err) {
+                        reject(err)
+                        return
+                    }
+                    for (let row of rows) {
+                        res.push(new Ticket(
+                            +DOMPurify.sanitize(row.ticketID), 
+                            +DOMPurify.sanitize(row.serviceID), 
+                            +DOMPurify.sanitize(row.waitlistCode), 
+                            +DOMPurify.sanitize(row.counterID) || null, 
+                            DOMPurify.sanitize(row.servedTime) || null, 
+                            DOMPurify.sanitize(row.ticketDate), 
+                            +DOMPurify.sanitize(row.served))
+                        );
+                    }
+                    resolve(res);
+                })
+            } catch (error) {
+                reject(error)
       }
     });
   }
