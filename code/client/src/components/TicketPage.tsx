@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import '../styles/TicketPage.css';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import "../styles/TicketPage.css";
 
 export default function TicketPage() {
-
-  const {serviceTag, waitlistCode} = useParams();
+  const { serviceTag, waitlistCode } = useParams();
   const navigate = useNavigate();
   const [secondsLeft, setSecondsLeft] = useState(30);
 
@@ -14,7 +13,7 @@ export default function TicketPage() {
     }, 1000);
 
     const redirectTimeout = setTimeout(() => {
-      navigate('/');
+      navigate("/");
     }, 30000);
 
     return () => {
@@ -25,7 +24,7 @@ export default function TicketPage() {
 
   const handlePrintTicket = () => {
     window.print();
-    navigate('/');  
+    navigate("/");
   };
 
   if (!serviceTag || !waitlistCode) {
@@ -34,21 +33,26 @@ export default function TicketPage() {
 
   return (
     <div className="centered-container d-flex flex-column justify-content-center align-items-center">
-
-      <div className="printable-ticket alert alert-success mt-4 text-center" role="alert">
-        <h4 className="alert-heading">Il tuo ticket:</h4>
-        <p>Numero: <strong>{waitlistCode}</strong></p>
-        <p>Servizio: <strong>{serviceTag}</strong></p>
+      <div
+        className="printable-ticket alert alert-success mt-4 text-center"
+        role="alert"
+      >
+        <h4 className="alert-heading">Your ticket:</h4>
+        <p>
+          Number: <strong>{waitlistCode}</strong>
+        </p>
+        <p>
+          Service: <strong>{serviceTag}</strong>
+        </p>
       </div>
 
-        <p className="timer-text mt-3">
-        Entro <strong>{secondsLeft}</strong> secondi sarai reindirizzato alla pagina iniziale.
-        </p>
+      <p className="timer-text mt-3">
+        Redirecting to home page in <strong>{secondsLeft}</strong> seconds
+      </p>
 
       <button className="btn btn-primary mt-4" onClick={handlePrintTicket}>
-        Salva il ticket in PDF
+        Save your ticket as PDF
       </button>
-
     </div>
   );
 }
