@@ -116,7 +116,7 @@ class CounterDAO {
     return new Promise((resolve, reject) => {
       try {
         const sql =
-          "SELECT ticketID, serviceID, waitlistCode FROM ticket WHERE CounterID = ? AND served = 0";
+          "SELECT s.serviceTag, t.waitlistCode FROM ticket t, service s WHERE t.serviceID = s.serviceID AND t.CounterID = ? AND t.served = 0";
         db.get(sql, [id], (err: Error | null, row: any) => {
           if (err) {
             reject(err);
