@@ -129,7 +129,7 @@ const CallNextCustomer = () => {
             <Card.Title>
               {currentTicket.serviceTag} {currentTicket.waitlistCode}
             </Card.Title>
-            <Card.Text>Service TAG: {currentTicket.serviceTag}</Card.Text>
+            <Card.Text>Service tag: {currentTicket.serviceTag}</Card.Text>
             <Card.Text>Waitlist Code: {currentTicket.waitlistCode}</Card.Text>
             <Button
               variant="danger"
