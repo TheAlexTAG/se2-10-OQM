@@ -14,6 +14,7 @@ const DOMPurify = createDOMPurify(window);
  */
 class QueueDAO {
     /**
+     * 
      * Returns an array of tickets
      * @returns A Promise that resolves the information of the requested queue
      */
