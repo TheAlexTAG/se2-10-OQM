@@ -20,7 +20,7 @@ class QueueDAO {
     getAllTicketsInQueues(): Promise<Ticket[]> {
         return new Promise<Ticket[]>((resolve, reject) => {
             try {
-                const sql = "SELECT * FROM ticket WHERE served=0"
+                const sql = "SELECT * FROM ticket WHERE served=0 ORDER BY CounterID DESC"
                 db.all(sql, [], (err: Error | null, rows: any) => {
                     const res = [];
                     if (err) {

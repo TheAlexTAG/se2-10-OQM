@@ -42,7 +42,7 @@ const addTicket = async (serviceName: string) => {
 
 const getAllTickets = async () => {
     try {
-      const response = await fetch(SERVER_URL + '/getAllTickets', {
+      const response = await fetch(SERVER_URL + '/tickets', {
         credentials: 'include',
       });
   
