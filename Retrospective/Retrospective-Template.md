@@ -1,4 +1,4 @@
-TEMPLATE FOR RETROSPECTIVE (Team ##)
+TEMPLATE FOR RETROSPECTIVE (Team 10)
 =====================================
 
 The retrospective should include _at least_ the following
@@ -52,7 +52,7 @@ sections:
 - Unit Testing:
   - Total hours estimated: `3d 1h`
   - Total hours spent: `2d 5h 30m`
-  - Nr of automated unit test cases `4`
+  - Nr of automated unit test cases `23 test cases into 4 test suits`
   - Coverage (if available) `only available for server tests: | 66.43% stmts | 33.62% branch | 64.64% funcs | 68.72% lines`
 - E2E testing:
   - Total hours estimated
