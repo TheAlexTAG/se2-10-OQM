@@ -96,8 +96,6 @@ describe("GET served/:counterID --> integration", () => {
 
     test("Test success served the customer and call next customer", async () => {
         await createTickets(ticketsList);
-        const t= await request(app).get(`${baseURL}/getAllTickets`)
-        console.log(t.body)
                 
         const first= await request(app).get(`${baseURL}/served/1`).set("Cookie", officerCookie).expect(200);
         expect(first).toBeDefined(); //We expect the user we have created to exist in the array. The parameter should also be equal to those we have sent
