@@ -9,7 +9,7 @@ const Login: React.FC = () => {
   const [username, setusername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
-  const { setUser, setLoggedIn } = useAuthContext();
+  const { setUser, setLoggedIn, refreshUser } = useAuthContext();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -24,6 +24,7 @@ const Login: React.FC = () => {
         const user = await API.login(username, password);
         setLoggedIn(true);
         setUser(user);
+        await refreshUser();
       } catch (err) {
         setError("Failed to log in");
       }

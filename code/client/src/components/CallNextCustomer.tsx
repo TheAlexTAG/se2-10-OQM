@@ -14,6 +14,7 @@ import API from "../app/services/API";
 interface Ticket {
   ticketID: number;
   serviceID: number;
+  serviceTag: string;
   waitlistCode: number;
   counterId: number;
   servedTime: Date;
@@ -125,8 +126,10 @@ const CallNextCustomer = () => {
         >
           <Card.Header as="h5">Current Ticket</Card.Header>
           <Card.Body>
-            <Card.Title>Ticket ID: {currentTicket.ticketID}</Card.Title>
-            <Card.Text>Service Type: {currentTicket.serviceID}</Card.Text>
+            <Card.Title>
+              {currentTicket.serviceTag} {currentTicket.waitlistCode}
+            </Card.Title>
+            <Card.Text>Service TAG: {currentTicket.serviceTag}</Card.Text>
             <Card.Text>Waitlist Code: {currentTicket.waitlistCode}</Card.Text>
             <Button
               variant="danger"
