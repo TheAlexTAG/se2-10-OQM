@@ -113,7 +113,7 @@ describe("GET served/:counterID --> integration", () => {
         const queueLen2= await countQueue();
         expect(queueLen2).toBe(11);
         
-        const servedTicket= await getTicket(2);
+        const servedTicket= await getTicket(1);
         expect(servedTicket).toBe(1);
     });
 
@@ -164,7 +164,7 @@ describe("GET notserved/:counterID --> integration", () => {
         const queueLen2= await countQueue();
         expect(queueLen2).toBe(11);
         
-        const servedTicket= await getTicket(2);
+        const servedTicket= await getTicket(1);
         expect(servedTicket).toBe(2);
     });
 

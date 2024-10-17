@@ -103,6 +103,7 @@ class CounterDAO {
                 )
               );
             });
+            counters.push(new Counter(prevoiusCID, services, true))
             resolve(counters);
           }
         });
