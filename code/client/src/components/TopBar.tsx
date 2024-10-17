@@ -8,7 +8,14 @@ function TopBar() {
 
   return (
     <div>
-      <Navbar bg="light" expand="lg">
+      <Navbar
+        expand="lg"
+        style={{
+          border: "0px",
+          borderRadius: "12px",
+          backgroundColor: "#0c6efd21",
+        }}
+      >
         <Container>
           <Navbar.Brand as={NavLink} to="/">
             Screen selection

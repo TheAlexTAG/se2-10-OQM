@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/GetTicket.css";
 import API from "../API";
-import { Container } from "react-bootstrap";
+import { Col, Container, Row } from "react-bootstrap";
 interface Service {
   id: number;
   tag: string;
@@ -59,26 +59,42 @@ export default function GetTicket() {
     return <div className="centered-container text-danger">{error}</div>;
   }
 
+  const imagePath = (tag: string) => {
+    if (tag === "TP01") {
+      return "./src/assets/tax.jpg";
+    } else if (tag === "PD02") {
+      return "./src/assets/delivery.jpg";
+    } else if (tag === "GA03") {
+      return "./src/assets/assistant.jpg";
+    }
+  };
+
   return (
     <Container className="centered-container sm-5">
       <div className="border rounded col-md-8 custom-class">
         <h1 className="text-center">Choose your Service</h1>
-        <div className="d-flex flex-column align-items-center my-4">
+        <Row>
           {Array.isArray(services) && services.length > 0 ? (
             services.map((service) => (
-              <button
-                key={service.id}
-                onClick={() => handleSelectService(service)}
-                className="btn btn-primary my-2"
-                style={{ width: "100%", maxWidth: "300px" }}
-              >
-                {service.name}
-              </button>
+              <Col md={6} className="my-2">
+                <button
+                  key={service.id}
+                  onClick={() => handleSelectService(service)}
+                  className="btn btn-primary my-2 h-100 d-grid align-items-center"
+                  style={{ width: "100%", maxWidth: "300px" }}
+                >
+                  <img
+                    src={imagePath(service.tag)}
+                    style={{ width: "100%", mixBlendMode: "color-dodge" }}
+                  ></img>
+                  <div>{service.name}</div>
+                </button>
+              </Col>
             ))
           ) : (
             <div>No services available</div>
           )}
-        </div>
+        </Row>
       </div>
     </Container>
   );
