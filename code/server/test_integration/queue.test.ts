@@ -1,9 +1,10 @@
-import { describe, test, expect, beforeAll, afterAll } from "@jest/globals"
+import { describe, test, expect, beforeAll, afterAll, afterEach } from "@jest/globals"
 import request from 'supertest';
 
 import { app, server } from "../index";
 import { cleanup } from "../src/db/cleanup";
 import db from "../src/db/db";
+import { Ticket } from '../src/components/ticket';
 
 const baseURL = "/api";
 
@@ -180,6 +181,57 @@ describe("GET notserved/:counterID --> integration", () => {
 
     test("Test error 401 --> counter not active", async () => {
         const result= await request(app).get(`${baseURL}/served/5`).set("Cookie", officerCookie).expect(401);
+    });
+
+});
+
+
+describe("GET /tickets", () => {
+
+    beforeAll(async () => {
+        await cleanup();
+        officerCookie = await login(officer);
+    });
+
+    afterEach(async () => {
+        await cleanup();
+    });
+
+    test("It returns all pending tickets, the one that are waititng and the one that are served in that moment", async () => {
+        officerCookie = await login(officer);
+
+        await request(app).post('/api/addTicket').send({serviceName: 'Tax payment'}).expect(200);
+        await request(app).post('/api/addTicket').send({serviceName: 'Tax payment'}).expect(200);
+        await request(app).post('/api/addTicket').send({serviceName: 'Package delivery'}).expect(200);
+        await request(app).post('/api/addTicket').send({serviceName: 'General assistence'}).expect(200);
+
+        const list = await request(app).get('/api/getAllTickets').set("Cookie", officerCookie).expect(200);
+        let result = list.body;
+
+        const served = await request(app).get('/api/served/1').set("Cookie", officerCookie).expect(200);
+        const served2 = await request(app).get('/api/served/1').set("Cookie", officerCookie).expect(200);
+
+        result = result.filter((t: any) => t.waitlistCode!=served.body)
+        result = result.map((t: any) => {
+            if (t.ticketID==served2.body)
+                t.counterID=1;
+            return t;
+        })
+
+        const pendingTickets = await request(app).get('/api/tickets').expect(200);
+
+        expect(pendingTickets.body).toHaveLength(3);
+        expect(pendingTickets.body).toEqual(result);
+    });
+
+    test("It returns an empty list if there are no pending tickets", async () => {
+
+        const result: Ticket[] = [];
+
+        const pendingTickets = await request(app).get('/api/tickets').expect(200);
+
+        expect(pendingTickets.body).toHaveLength(0);
+        expect(pendingTickets.body).toEqual(result);
     });
 
 });
