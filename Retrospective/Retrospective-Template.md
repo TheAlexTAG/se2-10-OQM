@@ -23,7 +23,6 @@ sections:
 - Code present on VCS
 - End-to-End tests performed
 
-> Please refine your DoD if required (you cannot remove items!) 
 
 ### Detailed statistics
 
@@ -34,7 +33,7 @@ sections:
 | _#2_   |7        |5       |2d2h        |2d30m         |
 | _#3_   |9        |1       |2d3h        |2d45m         |
 
-> story `#0` is for technical tasks, leave out story points (not applicable in this case)
+
 
 - Hours per task average, standard deviation (estimate and actual)
   - estimate: `average: 2 hours 30 minutes` `standard deviation: 16 minutes`
@@ -66,9 +65,12 @@ sections:
 
 ## ASSESSMENT
 
-- What caused your errors in estimation (if any)? `The majority are small estimation errors. The main problems are about not understanding well the complexity of a task. In the majority of our errors the estimations where too high in time.`
+- What caused your errors in estimation (if any)? 
+  - `The majority are small estimation errors. The main problems are about not understanding well the complexity of a task. In the majority of our errors the estimations where too high in time.` 
+  - `Also in the task point decision making some mistakes are made, in fact the majority of the effort has been taken by general tasks to setup the project like `
 
-- What lessons did you learn (both positive and negative) in this sprint? `The main lesson learned in this sprint is to be organized from the start is a great help for handling the work during the sprint. `
+- What lessons did you learn (both positive and negative) in this sprint? 
+  - `The main lesson learned in this sprint is to be organized from the start is a great help for handling the work during the sprint. `
 
 - Which improvement goals set in the previous retrospective were you able to achieve? 
   
@@ -76,8 +78,8 @@ sections:
 
 - Improvement goals for the next sprint and how to achieve them (technical tasks, team coordination, etc.)
 
-  > Improving team coordination between back-end team and front-end team.
-  > Being better organized from the start so that the working schedule can be spread better during the sprint
+  > - Improving team coordination between back-end team and front-end team.
+  > - Being better organized from the start so that the working schedule can be spread better during the sprint
 
 - One thing you are proud of as a Team!!
-  > In the end we manage to produce all the work we have scheduled and all of us are satisfied about how the demo works.
+  > - In the end we manage to produce all the work we have scheduled and all of us are satisfied about how the demo works.
