@@ -14,7 +14,7 @@ sections:
 
 - Number of stories committed vs. done `3/3`
 - Total points committed vs. done `9/9`
-- Nr of hours planned vs. spent (as a team) `2w 4d 3h/2w 4d 5m`
+- Nr of hours planned vs. spent (as a team) `115h/112h 5m`
 
 **Remember** a story is done ONLY if it fits the Definition of Done:
  
