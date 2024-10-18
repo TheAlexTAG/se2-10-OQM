@@ -1,5 +1,4 @@
 .centered-container {
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -26,7 +25,6 @@
   }
   
   @media print {
-    /* Nasconde tutto tranne il biglietto durante la stampa */
     body * {
       visibility: hidden;
     }

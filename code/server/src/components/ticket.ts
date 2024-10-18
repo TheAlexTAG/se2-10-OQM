@@ -32,10 +32,13 @@ class Ticket {
     }
 }
 
+/**
+ * Represents the status of a ticket in the queue.
+ */
 enum ServedStatus {
-    Pending = 0,
-    Served = 1,
-    NotServed = 2
+    Pending = 0, // The ticket is in the queue and waiting to be served.
+    Served = 1, // The ticket has been served.
+    NotServed = 2 // The ticket is no longer in the queue and has not been served.
 }
 
 export {Ticket, ServedStatus};
