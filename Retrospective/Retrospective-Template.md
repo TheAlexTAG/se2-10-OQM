@@ -28,10 +28,10 @@ sections:
 
 | Story  | # Tasks | Points | Hours est. | Hours actual |
 |--------|---------|--------|------------|--------------|
-| _#0_   |20       |        |1w1d7h30m   |1w2d45m       |
-| _#1_   |10       |3       |2d6h30m     |2d6h5m        |
-| _#2_   |7        |5       |2d2h        |2d30m         |
-| _#3_   |9        |1       |2d3h        |2d45m         |
+| _#0_   |20       |        |55h30m   |56h45m       |
+| _#1_   |10       |3       |22h30m     |22h4m        |
+| _#2_   |7        |5       |18h        |16h30m       |
+| _#3_   |9        |1       |19h        |16h45m       |
 
 
 
@@ -49,8 +49,8 @@ sections:
 ## QUALITY MEASURES 
 
 - Unit Testing:
-  - Total hours estimated: `3d 1h`
-  - Total hours spent: `2d 5h 30m`
+  - Total hours estimated: `25h`
+  - Total hours spent: `21h30m`
   - Nr of automated unit test cases `23 test cases into 4 test suits`
   - Coverage (if available) `only available for server tests: | 66.43% stmts | 33.62% branch | 64.64% funcs | 68.72% lines`
 - E2E testing:
@@ -58,8 +58,8 @@ sections:
   - Total hours spent
   `not assigned as tasks but some e2e testing has been done while coding for testing main functionalities`
 - Code review 
-  - Total hours estimated `1d 7h 30m`
-  - Total hours spent `1d 7h 30m`
+  - Total hours estimated `15h30m`
+  - Total hours spent `15h30m`
   
 
 
